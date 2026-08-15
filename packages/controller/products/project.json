@@ -1,0 +1,19 @@
+{
+  "name": "products",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/controller/products/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/controller/products",
+        "main": "packages/controller/products/src/index.ts",
+        "tsConfig": "packages/controller/products/tsconfig.lib.json",
+        "assets": ["packages/controller/products/*.md"]
+      }
+    }
+  }
+}

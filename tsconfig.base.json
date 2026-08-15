@@ -16,8 +16,21 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@org/source"],
+    "customConditions": ["@quarks/source"],
     "noUncheckedSideEffectImports": false,
-    "types": ["*"]
+    "types": ["*"],
+    "paths": {
+      "@quarks/api": ["./apps/api/src/index.ts"],
+      "@quarks/data": ["./packages/data/src/index.ts"],
+      "@quarks/auth": ["./packages/controller/auth/src/index.ts"],
+      "@quarks/user": ["./packages/controller/user/src/index.ts"],
+      "@quarks/store": ["./packages/controller/store/src/index.ts"],
+      "@quarks/purchase": ["./packages/controller/purchase/src/index.ts"],
+      "@quarks/products": ["./packages/controller/products/src/index.ts"],
+      "@quarks/webhook": ["./packages/controller/webhook/src/index.ts"],
+      "@quarks/use-cart": ["./packages/controller/useCart/src/index.ts"],
+      "@quarks/use-user": ["./packages/controller/useUser/src/index.ts"],
+      "@quarks/shared": ["./packages/shared/src/index.ts"]
+    }
   }
 }

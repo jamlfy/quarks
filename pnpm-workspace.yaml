@@ -1,0 +1,14 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'packages/controller/*'
+allowBuilds:
+  '@swc/core': true
+  esbuild: false
+  nx: true
+  sharp: false
+  workerd: false
+  unrs-resolver: false
+minimumReleaseAgeExclude:
+  - miniflare@5.20260811.1-alpha
+  - wrangler@4.123.0

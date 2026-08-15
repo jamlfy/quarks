@@ -1,0 +1,19 @@
+{
+  "name": "store",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/controller/store/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/controller/store",
+        "main": "packages/controller/store/src/index.ts",
+        "tsConfig": "packages/controller/store/tsconfig.lib.json",
+        "assets": ["packages/controller/store/*.md"]
+      }
+    }
+  }
+}

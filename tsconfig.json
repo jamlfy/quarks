@@ -2,6 +2,40 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": [],
+  "references": [
+    {
+      "path": "./packages/controller/products"
+    },
+    {
+      "path": "./packages/controller/purchase"
+    },
+    {
+      "path": "./packages/controller/useCart"
+    },
+    {
+      "path": "./packages/controller/useUser"
+    },
+    {
+      "path": "./packages/controller/webhook"
+    },
+    {
+      "path": "./packages/controller/store"
+    },
+    {
+      "path": "./packages/controller/auth"
+    },
+    {
+      "path": "./packages/controller/user"
+    },
+    {
+      "path": "./packages/shared"
+    },
+    {
+      "path": "./packages/data"
+    },
+    {
+      "path": "./apps/api"
+    }
+  ],
   "compilerOptions": {}
 }

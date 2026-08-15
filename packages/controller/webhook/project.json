@@ -1,0 +1,19 @@
+{
+  "name": "webhook",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/controller/webhook/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/controller/webhook",
+        "main": "packages/controller/webhook/src/index.ts",
+        "tsConfig": "packages/controller/webhook/tsconfig.lib.json",
+        "assets": ["packages/controller/webhook/*.md"]
+      }
+    }
+  }
+}

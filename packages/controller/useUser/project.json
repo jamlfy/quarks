@@ -1,0 +1,19 @@
+{
+  "name": "useUser",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/controller/useUser/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/controller/useUser",
+        "main": "packages/controller/useUser/src/index.ts",
+        "tsConfig": "packages/controller/useUser/tsconfig.lib.json",
+        "assets": ["packages/controller/useUser/*.md"]
+      }
+    }
+  }
+}

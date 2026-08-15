@@ -1,0 +1,12 @@
+{
+  "name": "@quarks/webhook",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@quarks/shared": "workspace:*",
+    "@swc/helpers": "~0.5.18"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "@quarks/api",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "dependencies": {
+    "@quarks/auth": "workspace:*",
+    "@quarks/products": "workspace:*",
+    "@quarks/purchase": "workspace:*",
+    "@quarks/store": "workspace:*",
+    "@quarks/user": "workspace:*",
+    "@quarks/webhook": "workspace:*",
+    "@quarks/data": "workspace:*",
+    "@quarks/shared": "workspace:*",
+    "itty-router": "^5.0.24"
+  }
+}
