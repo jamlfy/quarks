@@ -1,8 +1,12 @@
 import { Hono } from 'hono';
-import { getByUser, createSpend } from '@quarks/transaction-controller';
+import { getByUser, createSpend, injectTransactionService } from '@quarks/transaction-controller';
+import { injectStoreService } from '@quarks/store-controller';
+import { requireAuth } from "@quarks/share-middleware";
 
 export const purchaseRouter = new Hono();
 
-purchaseRouter.get('/', getByUser);
-purchaseRouter.get('/:domain', getByUser);
-purchaseRouter.post('/:domain', createSpend);
+purchaseRouter.use('*', injectTransactionService);
+purchaseRouter.use('*', injectStoreService);
+purchaseRouter.get('/', requireAuth, getByUser);
+purchaseRouter.get('/:domain', requireAuth, getByUser);
+purchaseRouter.post('/:domain', requireAuth, createSpend);

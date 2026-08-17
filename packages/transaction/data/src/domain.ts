@@ -25,7 +25,7 @@ export interface ITransactionService {
   add(userId: string, amount: number, metadata: Record<string, unknown>): Promise<ITransaction>;
   findByEvent(gatewayName: string, eventId: string): Promise<ITransaction | undefined>;
   spend(userId: string, storeId: string, amount: number, metadata: Record<string, unknown>): Promise<ITransaction>;
-  listByUser(userId: string, params: PaginatedParams): Promise<Paginated<ITransaction>>;
+  listByUser(userId: string, params: PaginatedParams, storeId?: string): Promise<Paginated<ITransaction>>;
   getByUser(userId: string, storeId?: string): Promise<number>;
   gateway(cart: IProduct[], user: IUser, needActive?: string | undefined): Promise<ITransaction>;
 }

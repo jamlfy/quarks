@@ -1,0 +1,12 @@
+{
+  "name": "@quarks/share-middleware",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/share/middleware/index.js",
+  "types": "./../../../dist/packages/share/middleware/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@quarks/user-data": "workspace:*"
+  }
+}

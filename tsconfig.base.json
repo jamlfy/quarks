@@ -41,6 +41,7 @@
       "@quarks/share-function": ["./packages/share/function/src/index.ts"],
       "@quarks/share-const": ["./packages/share/const/src/index.ts"],
       "@quarks/share-domain": ["./packages/share/domain/src/index.ts"],
+      "@quarks/share-middleware": ["./packages/share/middleware/src/index.ts"],
       "@quarks/getway": ["./packages/getway/src/index.ts"],
       "@quarks/event": ["./packages/event/src/index.ts"]
     }

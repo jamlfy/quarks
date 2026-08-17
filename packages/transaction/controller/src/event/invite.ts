@@ -1,21 +1,21 @@
 import type { EventPayload } from "@quarks/event";
-import { TransactionService } from '@quarks/transaction-data';
-import { drizzle } from 'drizzle-orm/d1';
+import type { Env } from "@quarks/share-domain";
+import { getTransactionService } from '../lib/service';
 
 export const type = "USER_GUEST_OTHER";
 
 const DEFAULT_REFERRAL_BONUS = 0;
-const DEFAULT_SESSION_MULTIPLIER = 1; // Fallback base = 1 para no anular el monto (monto * 1)
+const DEFAULT_SESSION_MULTIPLIER = 1;
 
 export const handle = async (
   event: EventPayload<{ userId: string; invite: string }>,
-  env: any
+  env: Env
 ): Promise<void> => {
   const { userId, invite } = event.payload;
 
   if (!userId || !invite) return;
 
-  const transaction = new TransactionService(drizzle(env.DB));
+  const transaction = getTransactionService(env);
 
   const [rawAmount, rawTime] = await Promise.all([
     env.CACHE.get(`config:${type}`),

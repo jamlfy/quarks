@@ -1,17 +1,17 @@
 import type { EventPayload } from "@quarks/event";
-import { TransactionService } from '@quarks/transaction-data';
-import { drizzle } from 'drizzle-orm/d1';
+import type { Env } from "@quarks/share-domain";
+import { getTransactionService } from '../lib/service';
 
 export const type = "VIEW_ADS";
 
 export const handle = async (
     event: EventPayload<{ userId: string }>,
-    env: any
+    env: Env
 ): Promise<void> => {
     const { userId } = event.payload;
   if (!userId) return;
 
-  const transaction = new TransactionService(drizzle(env.DB));
+  const transaction = getTransactionService(env);
   const [timesStr, adsStr] = await Promise.all([
     env.CACHE.get(`session:${userId}`),
     env.CACHE.get(`config:ads`),

@@ -1,5 +1,5 @@
 import { and, count, desc, eq, sql } from 'drizzle-orm';
-import { DrizzleD1Database } from 'drizzle-orm/d1';
+import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import type { PaginatedParams, Paginated } from '@quarks/share-domain';
 import type { IUser } from '@quarks/user-data';
 import type { IProduct } from '@quarks/product-data';
@@ -13,7 +13,7 @@ import { transactions, userPoints } from './schema';
 export class TransactionService implements ITransactionService {
   constructor(private db: DrizzleD1Database<any>) {}
 
-  private parse(row: any): IProduct | null {
+  private parse(row: any): ITransaction | null {
     if (!row) return null;
     return {
       ...row,
@@ -21,11 +21,10 @@ export class TransactionService implements ITransactionService {
     };
   }
 
-  async multiple(trans:ITransaction[]): Promise<ITransaction> {
-    return this.db
+  async multiple(trans: ITransaction[]): Promise<void> {
+    await this.db
       .insert(transactions)
       .values(trans.map((e) => ({ ...e, type: 'OK', metadata: JSON.stringify(e.metadata) })));
-
   }
 
   async add(userId: string, amount: number, metadata: Record<string, unknown>): Promise<ITransaction> {
@@ -136,7 +135,7 @@ export class TransactionService implements ITransactionService {
     return this.parse(row);
   }
 
-  async update(id: string, data: Record<string, unknown>): Promise<ITransaction[]> {
+  async update(id: string, data: Partial<Pick<ITransaction, 'type' | 'metadata'>>): Promise<ITransaction[]> {
     const rows = await this.db.update(transactions).set(data).where(eq(transactions.id, id)).returning().all();
     return rows.map((r) => this.parse(r));
   }

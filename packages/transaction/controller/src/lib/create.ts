@@ -1,28 +1,26 @@
 import type { Context } from 'hono';
 import { validate } from '@quarks/share-function';
-import { StoreService } from "@quarks/store-data";
-import { TransactionService, PurchaseSchema } from "@quarks/transaction-data";
+import type { StoreService } from '@quarks/store-data';
+import type { TransactionService } from '@quarks/transaction-data';
+import { PurchaseSchema } from '@quarks/transaction-data';
 
 export const createSpend = async (c: Context) => {
-  const user = c.get('user');
-  if (!user?.id) return c.text('Unauthorized', 401);
-
   const domain = c.req.param('domain') ?? '';
   const body = await c.req.json().catch(() => ({}));
   const parsed = validate(PurchaseSchema, body);
 
-  const storeService = new StoreService(c.get('db'));
-  const txService = new TransactionService(c.get('db'));
+  const storeService = c.get('storeService') as StoreService;
+  const txService = c.get('transactionService') as TransactionService;
 
   const store = await storeService.getById(domain);
   if (!store) return c.text('Store not found', 404);
 
   const totalPoints = parsed.price * (parsed.quantity ?? 1);
-  const points = await txService.getByUser(user.id, domain);
+  const points = await txService.getByUser(c.get('user').id, domain);
   if (points < totalPoints) return c.text('Insufficient points', 400);
 
   const tx = await txService.spend(
-    user.id,
+    c.get('user').id,
     domain,
     totalPoints,
     parsed as unknown as Record<string, unknown>

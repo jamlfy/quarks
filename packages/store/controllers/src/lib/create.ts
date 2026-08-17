@@ -1,15 +1,13 @@
 import type { Context } from 'hono';
-import { StoreService, StoreSchema } from "@quarks/store-data";
+import { StoreSchema } from "@quarks/store-data";
+import type { StoreService } from '@quarks/store-data';
 import { validate } from '@quarks/share-function';
 
 export const create = async (c: Context) => {
-    const user = c.get('user');
-    if (!user?.isAdmin) return c.text('Unauthorized', 403);
-
     const body = await c.req.json().catch(() => ({}));
     const parsed = validate(StoreSchema, body);
 
-    const storeService = new StoreService(c.get('db'));
+    const storeService = c.get('storeService') as StoreService;
     const created = await storeService.create({
         id: parsed.id,
         name: parsed.name,
