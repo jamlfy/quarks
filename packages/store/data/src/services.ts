@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { DrizzleD1Database } from 'drizzle-orm/d1';
+import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import { stores } from './schema';
 import type { IStore, IStoreCreate, IStoreUpdate, IStoreService } from './domain';
 
@@ -40,9 +40,9 @@ export class StoreService implements IStoreService {
       .insert(stores)
       .values({
         ...data,
-        description: data['description'] ?? null,
-        mapper: JSON.stringify(data['mapper']),
-        theme: JSON.stringify(data['theme']),
+        description: data.description ?? null,
+        mapper: JSON.stringify(data.mapper),
+        theme: JSON.stringify(data.theme),
       })
       .returning()
       .get();
@@ -53,13 +53,13 @@ export class StoreService implements IStoreService {
   async update(id: string, data: IStoreUpdate): Promise<IStore | null> {
     const payload: Record<string, unknown> = {};
 
-    if (data['name'] !== undefined) payload['name'] = data['name'];
-    if (data['description'] !== undefined) payload['description'] = data['description'];
-    if (data['api'] !== undefined) payload['api'] = data['api'];
-    if (data['points'] !== undefined) payload['points'] = data['points'];
-    if (data['isActive'] !== undefined) payload['isActive'] = data['isActive'];
-    if (data['mapper'] !== undefined) payload['mapper'] = JSON.stringify(data['mapper']);
-    if (data['theme'] !== undefined) payload['theme'] = JSON.stringify(data['theme']);
+    if (data.name !== undefined) payload['name'] = data.name;
+    if (data.description !== undefined) payload['description'] = data.description;
+    if (data.api !== undefined) payload['api'] = data.api;
+    if (data.points !== undefined) payload['points'] = data.points;
+    if (data.isActive !== undefined) payload['isActive'] = data.isActive;
+    if (data.mapper !== undefined) payload['mapper'] = JSON.stringify(data.mapper);
+    if (data.theme !== undefined) payload['theme'] = JSON.stringify(data.theme);
 
     if (Object.keys(payload).length === 0) {
       return this.getById(id);
