@@ -10,6 +10,7 @@
     "@quarks/getway": "workspace:*",
     "@quarks/product-data": "workspace:*",
     "@quarks/share-function": "workspace:*",
+    "@quarks/share-middleware": "workspace:*",
     "@quarks/transaction-data": "workspace:*"
   }
 }

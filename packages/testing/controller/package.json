@@ -8,9 +8,12 @@
   "dependencies": {
     "@swc/helpers": "~0.5.18",
     "@quarks/getway": "workspace:*",
+    "@quarks/product-controller": "workspace:*",
     "@quarks/product-data": "workspace:*",
     "@quarks/share-function": "workspace:*",
+    "@quarks/share-middleware": "workspace:*",
     "@quarks/testing-data": "workspace:*",
+    "@quarks/transaction-controller": "workspace:*",
     "@quarks/transaction-data": "workspace:*"
   }
 }

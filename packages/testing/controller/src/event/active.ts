@@ -1,15 +1,15 @@
 import type { EventPayload } from "@quarks/event";
-import { TestingService } from '@quarks/testing-data';
-import { drizzle } from 'drizzle-orm/d1';
+import type { Env } from "@quarks/share-domain";
+import { getTestingService } from '../lib/service';
 
 export const type = "TESTING_ACTIVE";
 
 export const handle = async (
   event: EventPayload<{ metadata: { needActive?: string } }>,
-  env: any
+  env: Env
 ): Promise<void> => {
     const { metadata: { needActive } } = event.payload;
-    const testing = new TestingService(drizzle(env.DB));
+    const testing = getTestingService(env);
     if (needActive) {
         await testing.active(needActive);
     }

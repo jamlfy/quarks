@@ -1,16 +1,17 @@
 import type { EventPayload } from "@quarks/event";
-import { TestingService, ITesting } from '@quarks/testing-data';
-import { drizzle } from 'drizzle-orm/d1';
+import type { Env } from "@quarks/share-domain";
+import type { ITesting } from '@quarks/testing-data';
+import { getTestingService } from '../lib/service';
 
 export const type = "CHECKOUT_CART";
 
 export const handle = async (
   event: EventPayload<{ checkout: ITesting[] }>,
-  env: any
+  env: Env
 ): Promise<void> => {
   const { checkout = [] } = event.payload;
-  const itemsWithCampaign: ITesting[] = checkout.filter((item) => !!item.campaing);
-    if (itemsWithCampaign.length === 0) return;
+  const itemsWithCampaign = checkout.filter((item) => !!item.campaing);
+  if (itemsWithCampaign.length === 0) return;
 
   const kvReadPromises = itemsWithCampaign.map((item) => {
     const key = `testing:${type}:${item.id}`;
@@ -46,7 +47,7 @@ export const handle = async (
   }
 
   if (toDesactive.length > 0) {
-    const testS = new TestingService(drizzle(env.DB));
+    const testS = getTestingService(env);
     promises.concat(testS.desactive(toDesactive));
   }
 

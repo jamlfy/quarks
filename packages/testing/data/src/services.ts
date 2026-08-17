@@ -1,6 +1,6 @@
 import { and, desc, eq, count, inArray } from 'drizzle-orm';
-import { DrizzleD1Database } from 'drizzle-orm/d1';
-import { PaginatedParams, Paginated } from '@quarks/share-domain';
+import type { DrizzleD1Database } from 'drizzle-orm/d1';
+import type { PaginatedParams, Paginated } from '@quarks/share-domain';
 
 import { testing, testingStores } from './schema';
 import type { ITesting, ITestingInput, ITestingUpdate } from './domain';
@@ -56,14 +56,15 @@ export class TestingService {
     return this.parse(row);
   }
 
-  async getByIds(ids: string[]): Promise<ITesting | null[]> {
-      if (ids.length === 0) return [];
+  async getByIds(ids: string[]): Promise<ITesting[]> {
+    if (ids.length === 0) return [];
 
-      return
-        this.db.select().from(testing)
-        .where(inArray(testing.id, ids))
-        .get();
-    }
+    const rows = this.db.select().from(testing)
+      .where(inArray(testing.id, ids))
+      .all();
+
+    return rows.map((r) => this.parse(r)).filter((i): i is ITesting => i !== null);
+  }
 
   async getByCampaing(campaing: string): Promise<ITesting | null> {
     const row = await this.db
@@ -173,7 +174,7 @@ export class TestingService {
   }
 
   async active(campaing: string): Promise<ITesting[]> {
-      return this.db.update(testing).set({ isActive: true }).where(eq(testing.campaing, campaing));
+    return this.db.update(testing).set({ isActive: true }).where(eq(testing.campaing, campaing)).returning().all();
   }
 
   async desactive(ids: string[]): Promise<ITesting[]> {
@@ -183,10 +184,11 @@ export class TestingService {
       .update(testing)
       .set({ isActive: false })
       .where(inArray(testing.id, ids))
-      .returning();
+      .returning()
+      .all();
   }
 
-    async whoIsActive(): Promise<ITesting[]> {
-        return this.db.select().from(testing).where(eq(testing.isActive, true), eq(testing.type, "TIME")).get();
-    }
+  async whoIsActive(): Promise<ITesting[]> {
+    return this.db.select().from(testing).where(and(eq(testing.isActive, true), eq(testing.type, "TIME"))).all();
+  }
 }
