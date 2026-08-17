@@ -27,7 +27,7 @@ export const refresh = async (c: Context) => {
         token: newToken,
       });
 
-    } catch (err) {
-      return c.json({ error: 'Invalid or corrupted token', err }, 401);
+    } catch {
+      return c.json({ error: 'Invalid or corrupted token' }, 401);
     }
   };

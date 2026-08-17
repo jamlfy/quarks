@@ -1,15 +1,15 @@
 import { Hono } from 'hono';
-import { getMe, updateMe, getAll, getOne, updateOne } from '@quarks/user-controller';
+import { getMe, updateMe, getAll, getOne, updateOne, injectUserService, requireAuth, requireAdmin } from '@quarks/user-controller';
 
 export const userRouter = new Hono();
 
-userRouter.get('/', getMe);
-userRouter.put('/', updateMe);
-// O .post('/', updateMe) si prefieres mantener POST estricto
+userRouter.use('*', injectUserService);
+userRouter.get('/', requireAuth, getMe);
+userRouter.put('/', requireAuth, updateMe);
 
 export const userAdminRouter = new Hono();
 
-userAdminRouter.get('/', getAll);
-userAdminRouter.get('/:id', getOne);
-userAdminRouter.put('/:id', updateOne);
-// O .post('/:id', updateOne) según la semántica de tu API
+userAdminRouter.use('*', injectUserService);
+userAdminRouter.get('/', requireAdmin, getAll);
+userAdminRouter.get('/:id', requireAdmin, getOne);
+userAdminRouter.put('/:id', requireAdmin, updateOne);

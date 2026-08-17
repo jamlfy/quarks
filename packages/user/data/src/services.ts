@@ -2,7 +2,6 @@ import { and, count, desc, eq } from 'drizzle-orm';
 import { generateUUIdUser } from "@quarks/share-function";
 
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
-import type { Context } from 'hono';
 import type { PaginatedParams, Paginated } from "@quarks/share-domain";
 import type { IUser } from "./domain";
 
@@ -54,32 +53,19 @@ export class UserService {
       .get();
   }
 
-  async findOrCreateUser(provider: string, data: Record<string, unknown>, c: Context): Promise<IUser> {
-    const socialId = String(data['id'] ?? data['sub'] ?? data['email'] ?? crypto.radomUUID());
+  async findOrCreateUser(provider: string, data: Record<string, unknown>, idLength?: number): Promise<{ user: IUser; isNew: boolean }> {
+    const socialId = String(data['id'] ?? data['sub'] ?? data['email'] ?? crypto.randomUUID());
     const existing = await this.getBySocial(provider, socialId);
-    if (existing) return existing;
-    const cachedLengthStr = await c.CACHE.get('config:ID_LENGHT');
+    if (existing) return { user: existing, isNew: false };
+
     const email = data['email'] ? String(data['email']) : `${socialId}@${provider}.auth`;
     const name = String(data['name'] ?? data['login'] ?? data['email'] ?? 'User');
     const avatar = String(data['picture'] ?? data['avatar_url'] ?? data['avatar'] ?? '');
-    const user = await this.create({ email, name, avatar, socialId, socialProvider: provider }, cachedLengthStr ? parseInt(cachedLengthStr, 10) : undefined);
-    await c.env.EVENT_QUEUE.send({
-      type: 'USER_GUEST_OTHER',
-      payload: {
-        userId: user.id,
-        invite: c.req.query('invite'),
-      }
-    });
-    await c.env.EVENT_QUEUE.send({
-      type: 'NEW_USER',
-      payload: {
-        userId: user.id,
-      }
-    });
-    return user;
+    const user = await this.create({ email, name, avatar, socialId, socialProvider: provider }, idLength);
+    return { user, isNew: true };
   }
 
-  update(id: string, data: Record<string, unknown>): Promise<IUser | undefined> {
+  update(id: string, data: Partial<Pick<IUser, 'name' | 'email' | 'isAdmin'>>): Promise<IUser | undefined> {
     return this.db.update(users).set(data).where(eq(users.id, id)).returning().get();
   }
 
@@ -89,8 +75,8 @@ export class UserService {
 
   async list(params: PaginatedParams): Promise<Paginated<IUser[]>> {
     const offset = (params.page - 1) * params.limit;
-    const [[{ total }], userList] = await Promise.all([
-      this.db.select({ total: count() }).from(users).all(),
+    const [total, userList] = await Promise.all([
+      this.count(),
       this.db
         .select()
         .from(users)

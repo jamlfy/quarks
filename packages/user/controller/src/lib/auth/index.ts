@@ -1,6 +1,7 @@
 import type { Context } from 'hono';
 
 import { UserService } from "@quarks/user-data";
+import { ENV } from '@quarks/share-const';
 import { buildAuthUrl, exchangeCode, SOCIAL_PROVIDERS } from "./service";
 import { generateToken } from '../generate';
 
@@ -39,11 +40,24 @@ export const socialCallback = async (c: Context) => {
   if (!userData) return c.text('Failed to authenticate', 401);
 
   const userS = new UserService(c.get('db'));
-  const user = await userS.findOrCreateUser(social, userData, c);
-  if (!user) return c.text('Failed to create user', 500);
+  const cachedLengthStr = await c.env.CACHE.get('config:ID_LENGTH');
+  const { user, isNew } = await userS.findOrCreateUser(
+    social,
+    userData,
+    cachedLengthStr ? parseInt(cachedLengthStr, 10) : undefined
+  );
+
+  if (isNew) {
+      const invite = c.req.query('invite');
+      await Promise.all([
+          c.env.EVENT_QUEUE.send({ type: 'USER_GUEST_OTHER', payload: { userId: user.id, invite } }),
+          c.env.EVENT_QUEUE.send({ type: 'NEW_USER', payload: { userId: user.id } })
+      ]);
+  }
 
   const token = await generateToken(user, c);
 
   const redirect = c.req.query('redirect') || '/';
-  return c.redirect(`${redirect}?token=${token}`);
+  c.header('Set-Cookie', `token=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${ENV.TWENTY_FOUR_HOURS * 2}`);
+  return c.redirect(`${redirect}`);
 };

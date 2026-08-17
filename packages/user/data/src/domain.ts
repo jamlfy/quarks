@@ -45,12 +45,12 @@ export type exchangeCodeFunc = (
 ) => Promise<Record<string, unknown>>;
 
 export interface OAuthProvider {
-  name: string;
+  name: 'google' | 'facebook';
   buildAuthUrl: buildAuthUrlFunc;
   exchangeCode: exchangeCodeFunc;
 }
 
-export type SocialOAuth = Record<string, OAuthProvider>;
+export type SocialOAuth = Record<OAuthProvider['name'], OAuthProvider>;
 
 export interface GoogleUserInfo {
   id: string;

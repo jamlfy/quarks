@@ -1,43 +1,40 @@
 import type { Context } from 'hono';
-import { UserService } from "@quarks/user-data";
-import { AdminUserUpdateSchema, UserUpdateSchema } from "@quarks/user-data";
+import type { UserService } from '@quarks/user-data';
+import type { ZodObject, ZodRawShape } from 'zod';
+import { AdminUserUpdateSchema, UserUpdateSchema } from '@quarks/user-data';
 import { validate } from '@quarks/share-function';
 
-export const updateOne = async (c: Context) => {
-  const jwtUser = c.get('user');
-  if (!jwtUser?.isAdmin) return c.text('Unauthorized', 403);
+type UpdateData = Partial<Pick<import('@quarks/user-data').IUser, 'name' | 'email' | 'isAdmin'>>;
 
-  const id = c.req.param('id') ?? '';
-  const body = await c.req.json().catch(() => ({}));
-  const parsed = validate(AdminUserUpdateSchema, body);
+function createUpdateHandler(
+  schema: ZodObject<ZodRawShape>,
+  extractFields: (parsed: Record<string, unknown>) => UpdateData,
+  getId: (c: Context) => string
+) {
+  return async (c: Context) => {
+    const body = await c.req.json().catch(() => ({}));
+    const parsed = validate(schema, body);
+    const data = extractFields(parsed);
 
-  const data: Record<string, unknown> = {};
-  if (parsed.name !== undefined) data['name'] = parsed.name;
-  if (parsed.email !== undefined) data['email'] = parsed.email;
+    if (Object.keys(data).length === 0) return c.text('No fields to update', 400);
 
-  if (Object.keys(data).length === 0) return c.text('No fields to update', 400);
+    const userService = c.get('userService') as UserService;
+    const updatedUser = await userService.update(getId(c), data);
+    return c.json(updatedUser);
+  };
+}
 
-  const userService = new UserService(c.get('db'));
-  const updatedUser = await userService.update(id, data);
+export const updateMe = createUpdateHandler(UserUpdateSchema, (parsed) => {
+  const data: UpdateData = {};
+  if (parsed.name !== undefined) data.name = parsed.name;
+  if (parsed.email !== undefined) data.email = parsed.email;
+  return data;
+}, (c) => c.get('user').id);
 
-  return c.json(updatedUser);
-};
-
-export const updateMe = async (c: Context) => {
-  const jwtUser = c.get('user');
-  if (!jwtUser?.id) return c.text('Unauthorized', 403);
-
-  const body = await c.req.json().catch(() => ({}));
-  const parsed = validate(UserUpdateSchema, body);
-
-  const data: Record<string, unknown> = {};
-  if (parsed.name !== undefined) data['name'] = parsed.name;
-  if (parsed.email !== undefined) data['email'] = parsed.email;
-
-  if (Object.keys(data).length === 0) return c.text('No fields to update', 400);
-
-  const userService = new UserService(c.get('db'));
-  const updatedUser = await userService.update(jwtUser.id, data);
-
-  return c.json(updatedUser);
-};
+export const updateOne = createUpdateHandler(AdminUserUpdateSchema, (parsed) => {
+  const data: UpdateData = {};
+  if (parsed.name !== undefined) data.name = parsed.name;
+  if (parsed.email !== undefined) data.email = parsed.email;
+  if (parsed.isAdmin !== undefined) data.isAdmin = parsed.isAdmin;
+  return data;
+}, (c) => c.req.param('id') ?? '');
