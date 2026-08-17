@@ -79,15 +79,15 @@ export class ProductService implements IProductService {
     const row = await this.db
       .insert(products)
       .values({
-        name: input['name'],
-        code: input['code'],
-        price: input['price'],
-        currency: input['currency'],
-        points: input['points'] ?? 0,
-        gateway: JSON.stringify(input['gateway'] ?? []),
-        metadata: input['metadata'] ? JSON.stringify(input['metadata']) : null,
-        countryCode: input['countryCode'],
-        isActive: input['isActive'] ?? true,
+        name: input.name,
+        code: input.code,
+        price: input.price,
+        currency: input.currency,
+        points: input.points ?? 0,
+        gateway: JSON.stringify(input.gateway ?? []),
+        metadata: input.metadata ? JSON.stringify(input.metadata) : null,
+        countryCode: input.countryCode,
+        isActive: input.isActive ?? true,
       })
       .returning()
       .get();
@@ -98,14 +98,14 @@ export class ProductService implements IProductService {
   async update(id: string, input: IProductUpdate): Promise<IProduct | null> {
     const payload: Record<string, unknown> = {};
 
-    if (input['name'] !== undefined) payload['name'] = input['name'];
-    if (input['code'] !== undefined) payload['code'] = input['code'];
-    if (input['price'] !== undefined) payload['price'] = input['price'];
-    if (input['currency'] !== undefined) payload['currency'] = input['currency'];
-    if (input['points'] !== undefined) payload['points'] = input['points'];
-    if (input['metadata'] !== undefined) payload['metadata'] = JSON.stringify(input['metadata']);
-    if (input['countryCode'] !== undefined) payload['countryCode'] = input['countryCode'];
-    if (input['isActive'] !== undefined) payload['isActive'] = input['isActive'];
+    if (input.name !== undefined) payload['name'] = input.name;
+    if (input.code !== undefined) payload['code'] = input.code;
+    if (input.price !== undefined) payload['price'] = input.price;
+    if (input.currency !== undefined) payload['currency'] = input.currency;
+    if (input.points !== undefined) payload['points'] = input.points;
+    if (input.metadata !== undefined) payload['metadata'] = JSON.stringify(input.metadata);
+    if (input.countryCode !== undefined) payload['countryCode'] = input.countryCode;
+    if (input.isActive !== undefined) payload['isActive'] = input.isActive;
 
     if (Object.keys(payload).length === 0) {
       return this.getById(id);
@@ -126,21 +126,21 @@ export class ProductService implements IProductService {
     return result.rowsWritten > 0;
   }
 
-  async check(ids: Record<string, string[]>): Promise<Array<Record<string, unknown>>> {
+  async check(ids: Record<string, string[]>): Promise<Array<IProduct & { uuid: string }>> {
     const entries = Object.entries(ids);
     if (entries.length === 0) return [];
 
     const query = entries.map(([productId]) => eq(products.id, productId));
     const rows = await this.db.select().from(products).where(or(...query)).all();
 
-    return entries.reduce<Array<Record<string, unknown>>>((acc, [productId, units]) => {
+    return entries.reduce<Array<IProduct & { uuid: string }>>((acc, [productId, units]) => {
       const row = rows.find(({ id }) => id === productId);
       const parsedProduct = this.parse(row);
       const newUnits = units.map((uuid) => ({
         ...parsedProduct,
         uuid,
         quantity: parsedProduct?.quantity ?? 1,
-      }));
+      })) as Array<IProduct & { uuid: string }>;
 
       return [...acc, ...newUnits];
     }, []);

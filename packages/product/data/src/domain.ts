@@ -33,5 +33,5 @@ export interface IProductService {
   create(data: IProductCreate): Promise<IProduct>;
   update(id: string, data: IProductUpdate): Promise<IProduct | null>;
   delete(id: string): Promise<boolean>;
-  check(ids: Record<string, string[]>): Promise<Array<Record<string, unknown>>>;
+  check(ids: Record<string, string[]>): Promise<Array<IProduct & { uuid: string }>>;
 }

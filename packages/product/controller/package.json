@@ -11,6 +11,7 @@
     "@quarks/product-data": "workspace:*",
     "@quarks/share-function": "workspace:*",
     "@quarks/share-middleware": "workspace:*",
+    "@quarks/transaction-controller": "workspace:*",
     "@quarks/transaction-data": "workspace:*"
   }
 }
