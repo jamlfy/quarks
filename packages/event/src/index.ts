@@ -1,13 +1,12 @@
-// domain/events.ts
 export interface EventPayload<T = unknown> {
   type: string;
   payload: T;
-  timestamp: string;
+  timestamp: number;
 }
 
-export interface EventHandler<T = unknown> {
+export interface EventHandler<T = unknown, E = Record<string, unknown>> {
   type: string;
-  handle(event: EventPayload<T>, env: any, ctx: any): Promise<void>;
+  handle(event: EventPayload<T>, env: E): Promise<void>;
 }
 
 export class EventBus {
@@ -18,12 +17,12 @@ export class EventBus {
     this.handlers.set(handler.type, [...existing, handler]);
   }
 
-  async dispatch(event: EventPayload, env: any, ctx: any) {
+  async dispatch(event: EventPayload, env: Record<string, unknown>) {
     const matchedHandlers = this.handlers.get(event.type) || [];
     if (matchedHandlers.length === 0) return;
 
     const results = await Promise.allSettled(
-      matchedHandlers.map((handler) => handler.handle(event, env, ctx))
+      matchedHandlers.map((handler) => handler.handle(event, env))
     );
 
     const errors = results.filter((r) => r.status === 'rejected');

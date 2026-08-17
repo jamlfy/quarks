@@ -44,7 +44,7 @@ export const handle = async (
   }
 
   if (toDesactive.length > 0) {
-    writePromises.push(testS.desactive(toDesactive));
+    writePromises.push(testS.desactive(toDesactive).then(() => undefined));
   }
 
   await Promise.all(writePromises);

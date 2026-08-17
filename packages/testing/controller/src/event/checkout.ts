@@ -43,12 +43,12 @@ export const handle = async (
   }
 
   if (toFetch.length > 0) {
-    promises.concat(toFetch.map(({ item: { max }, key }) => env.CACHE.put(key, max.toString())));
+    toFetch.forEach(({ item: { max }, key }) => promises.push(env.CACHE.put(key, max.toString())));
   }
 
   if (toDesactive.length > 0) {
     const testS = getTestingService(env);
-    promises.concat(testS.desactive(toDesactive));
+    promises.push(testS.desactive(toDesactive).then(() => undefined));
   }
 
   await Promise.all(promises);
