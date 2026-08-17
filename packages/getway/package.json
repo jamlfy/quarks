@@ -1,0 +1,14 @@
+{
+  "name": "@quarks/getway",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../dist/packages/getway/index.js",
+  "types": "./../../dist/packages/getway/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@quarks/share-const": "workspace:*",
+    "@quarks/transaction-data": "workspace:*",
+    "@quarks/user-data": "workspace:*"
+  }
+}

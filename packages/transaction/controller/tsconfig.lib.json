@@ -1,0 +1,29 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/packages/transaction/controller",
+    "tsBuildInfoFile": "../../../dist/out-tsc/packages/transaction/controller/tsconfig.lib.tsbuildinfo",
+    "declaration": true,
+    "types": ["node"],
+    "rootDir": "src",
+    "composite": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ],
+  "references": [
+    {
+      "path": "../data/tsconfig.lib.json"
+    },
+    {
+      "path": "../../store/data/tsconfig.lib.json"
+    },
+    {
+      "path": "../../share/function/tsconfig.lib.json"
+    }
+  ]
+}

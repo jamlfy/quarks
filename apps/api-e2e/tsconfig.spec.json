@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/apps/api-e2e",
+    "types": [
+      "jest",
+      "node"
+    ],
+    "rootDir": ".",
+    "composite": true
+  },
+  "include": [
+    "jest.config.ts",
+    "src/**/*.ts"
+  ],
+  "references": [
+    {
+      "path": "../../packages/share/const/tsconfig.lib.json"
+    }
+  ]
+}

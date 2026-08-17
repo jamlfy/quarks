@@ -1,0 +1,11 @@
+{
+  "name": "@quarks/share-domain",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/share/domain/index.js",
+  "types": "./../../../dist/packages/share/domain/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18"
+  }
+}

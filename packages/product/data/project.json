@@ -1,0 +1,28 @@
+{
+  "name": "product/data",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/product/data/src",
+  "projectType": "library",
+  "tags": [
+    "data:product",
+    "type:product"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/product/data",
+        "main": "packages/product/data/src/index.ts",
+        "tsConfig": "packages/product/data/tsconfig.lib.json",
+        "assets": [
+          "packages/product/data/*.md"
+        ],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

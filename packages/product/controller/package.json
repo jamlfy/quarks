@@ -1,0 +1,15 @@
+{
+  "name": "@quarks/product-controller",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/product/controller/index.js",
+  "types": "./../../../dist/packages/product/controller/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@quarks/getway": "workspace:*",
+    "@quarks/product-data": "workspace:*",
+    "@quarks/share-function": "workspace:*",
+    "@quarks/transaction-data": "workspace:*"
+  }
+}

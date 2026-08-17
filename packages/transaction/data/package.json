@@ -1,0 +1,14 @@
+{
+  "name": "@quarks/transaction-data",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/transaction/data/index.js",
+  "types": "./../../../dist/packages/transaction/data/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@quarks/product-data": "workspace:*",
+    "@quarks/share-domain": "workspace:*",
+    "@quarks/user-data": "workspace:*"
+  }
+}

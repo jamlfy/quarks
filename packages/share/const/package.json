@@ -1,0 +1,11 @@
+{
+  "name": "@quarks/share-const",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/share/const/index.js",
+  "types": "./../../../dist/packages/share/const/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18"
+  }
+}

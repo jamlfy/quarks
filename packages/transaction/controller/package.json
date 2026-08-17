@@ -1,0 +1,14 @@
+{
+  "name": "@quarks/transaction-controller",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/transaction/controller/index.js",
+  "types": "./../../../dist/packages/transaction/controller/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@quarks/share-function": "workspace:*",
+    "@quarks/store-data": "workspace:*",
+    "@quarks/transaction-data": "workspace:*"
+  }
+}

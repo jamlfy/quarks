@@ -1,0 +1,28 @@
+{
+  "name": "user/controller",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/user/controller/src",
+  "projectType": "library",
+  "tags": [
+    "domain:user",
+    "type:controllers"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/user/controller",
+        "main": "packages/user/controller/src/index.ts",
+        "tsConfig": "packages/user/controller/tsconfig.lib.json",
+        "assets": [
+          "packages/user/controller/*.md"
+        ],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

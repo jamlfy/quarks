@@ -1,0 +1,12 @@
+{
+  "name": "@quarks/testing-data",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/testing/data/index.js",
+  "types": "./../../../dist/packages/testing/data/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@quarks/share-domain": "workspace:*"
+  }
+}

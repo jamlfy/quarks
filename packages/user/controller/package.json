@@ -1,0 +1,14 @@
+{
+  "name": "@quarks/user-controller",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/user/controller/index.js",
+  "types": "./../../../dist/packages/user/controller/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@quarks/share-const": "workspace:*",
+    "@quarks/share-function": "workspace:*",
+    "@quarks/user-data": "workspace:*"
+  }
+}

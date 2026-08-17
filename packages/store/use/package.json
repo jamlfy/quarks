@@ -1,0 +1,11 @@
+{
+  "name": "@quarks/store-use",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/store/use/index.js",
+  "types": "./../../../dist/packages/store/use/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18"
+  }
+}

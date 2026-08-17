@@ -1,0 +1,28 @@
+{
+  "name": "share/function",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/share/function/src",
+  "projectType": "library",
+  "tags": [
+    "functions:share",
+    "type:share"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/share/function",
+        "main": "packages/share/function/src/index.ts",
+        "tsConfig": "packages/share/function/tsconfig.lib.json",
+        "assets": [
+          "packages/share/function/*.md"
+        ],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

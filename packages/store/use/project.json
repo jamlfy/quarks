@@ -1,0 +1,28 @@
+{
+  "name": "store/use",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/store/use/src",
+  "projectType": "library",
+  "tags": [
+    "use:store",
+    "type:store"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/store/use",
+        "main": "packages/store/use/src/index.ts",
+        "tsConfig": "packages/store/use/tsconfig.lib.json",
+        "assets": [
+          "packages/store/use/*.md"
+        ],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

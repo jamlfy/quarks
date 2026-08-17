@@ -1,0 +1,12 @@
+{
+  "name": "@quarks/product-data",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/product/data/index.js",
+  "types": "./../../../dist/packages/product/data/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@quarks/share-domain": "workspace:*"
+  }
+}

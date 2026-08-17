@@ -1,0 +1,45 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/apps/api",
+    "types": ["node"],
+    "rootDir": "src",
+    "composite": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "jest.config.ts",
+    "jest.config.cts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ],
+  "references": [
+    {
+      "path": "../../packages/testing/controller/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/store/controllers/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/transaction/controller/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/product/controller/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/share/domain/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/user/controller/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/getway/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/event"
+    },
+    {
+      "path": "../../packages/share/const/tsconfig.lib.json"
+    }
+  ]
+}

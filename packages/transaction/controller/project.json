@@ -1,0 +1,28 @@
+{
+  "name": "transaction/controller",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/transaction/controller/src",
+  "projectType": "library",
+  "tags": [
+    "controllers:transactions",
+    "type:transactions"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/transaction/controller",
+        "main": "packages/transaction/controller/src/index.ts",
+        "tsConfig": "packages/transaction/controller/tsconfig.lib.json",
+        "assets": [
+          "packages/transaction/controller/*.md"
+        ],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

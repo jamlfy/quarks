@@ -1,0 +1,28 @@
+{
+  "name": "transaction/data",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/transaction/data/src",
+  "projectType": "library",
+  "tags": [
+    "data:transactions",
+    "type:transactions"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/transaction/data",
+        "main": "packages/transaction/data/src/index.ts",
+        "tsConfig": "packages/transaction/data/tsconfig.lib.json",
+        "assets": [
+          "packages/transaction/data/*.md"
+        ],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

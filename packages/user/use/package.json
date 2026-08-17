@@ -1,0 +1,14 @@
+{
+  "name": "@quarks/user-use",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./../../../dist/packages/user/use/index.js",
+  "types": "./../../../dist/packages/user/use/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.18",
+    "@quarks/share-domain": "workspace:*",
+    "@quarks/share-use": "workspace:*",
+    "@quarks/user-data": "workspace:*"
+  }
+}
