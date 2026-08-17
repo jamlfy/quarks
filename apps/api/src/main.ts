@@ -1,27 +1,33 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { ENV } from '@quarks/share-const';
+import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { getEnv, ENV } from '@quarks/share-const';
+import { createAppMiddleware, requireJWT, requireCountry } from '@quarks/share-middleware';
+import { WebHook } from '@quarks/getway';
 
 import type { Env } from '@quarks/share-domain';
 import type { MessageBatch } from '@cloudflare/workers-types';
 import type { ScheduledEvent, ExecutionContext } from '@cloudflare/workers-types';
 import type { EventPayload } from '@quarks/event';
 
-import { appMiddleware } from './modules/middleware';
 import { authRouter } from './modules/auth';
 import { userRouter, userAdminRouter } from './modules/user';
 import { storeRouter } from './modules/store';
 import { purchaseRouter } from './modules/purchase';
 import { productRouter } from './modules/product';
 import { testingRouter } from './modules/testing';
-import { WebHook } from '@quarks/getway';
 import { eventBus } from './modules/events';
+
+const pool = new Pool({ connectionString: String(getEnv(undefined, ENV.DATABASE_URL)) });
+const db = drizzle(pool);
+const appMiddleware = createAppMiddleware(db);
 
 const app = new Hono();
 const prefix = `/${ENV.API_VERSION}`;
 
 app.use('*', cors());
-app.use('*', appMiddleware);
+app.use('*', appMiddleware, requireJWT, requireCountry);
 
 app.route(`${prefix}/auth`, authRouter);
 app.route(`${prefix}/store`, storeRouter);
@@ -53,7 +59,7 @@ export default {
   async queue(batch: MessageBatch<EventPayload<unknown>>, env: Env, ctx: ExecutionContext): Promise<void> {
       for (const message of batch.messages) {
         try {
-            await eventBus.dispatch(message.body, env, ctx);
+            await eventBus.dispatch(message.body, env);
             message.ack();
           } catch {
             message.retry();
@@ -62,6 +68,6 @@ export default {
   },
 
   async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
-    await eventBus.dispatch({ type: event.cron, payload: {}, timestamp: new Date().toISOString() }, env, ctx);
+    await eventBus.dispatch({ type: event.cron, payload: {}, timestamp: Math.floor(Date.now() / 1000) }, env);
   }
 }
