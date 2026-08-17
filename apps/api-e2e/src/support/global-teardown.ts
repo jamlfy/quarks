@@ -1,6 +1,9 @@
 import { killPort } from '@nx/node/utils';
-import { getEnv, ENV, DEFAULTS } from '@quarks/share/const';
-/* eslint-disable */
+import { getEnv, ENV, DEFAULTS } from '@quarks/share-const';
+
+declare global {
+  var __TEARDOWN_MESSAGE__: string | undefined;
+}
 
 module.exports = async function () {
   // Put clean up logic here (e.g. stopping services, docker-compose, etc.).

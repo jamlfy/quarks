@@ -126,7 +126,7 @@ Vite standalone projects (imported as whole-repo) have self-contained tsconfigs 
 
 1. Add `extends: "../../tsconfig.base.json"` to the root project tsconfig
 2. Add `composite: true`, `declaration: true`, `declarationMap: true`, `tsBuildInfoFile` to `tsconfig.app.json` and `tsconfig.spec.json`
-3. Set `moduleResolution: "bundler"` (replace `"node"`)
+3. Set `moduleResolution: "esnext"` (replace `"node"`)
 4. Add source files to `tsconfig.spec.json` `include` — specs import app code, and `composite` mode requires all files to be listed
 
 ### Typecheck Target Names
@@ -210,5 +210,5 @@ No naming conflicts between frameworks.
   4. ESLint 8 vs 9 conflict — `@nx/eslint` peer on ESLint 8 resolved wrong version. Fixed with `pnpm.overrides`
   5. Vite tsconfigs missing `composite: true`, `declaration: true` — needed for `tsc --build --emitDeclarationOnly`
   6. Vite `tsconfig.spec.json` `include` missing source files — specs import app code
-  7. Vite tsconfig `moduleResolution: "node"` → `"bundler"`, added `extends: "../../tsconfig.base.json"`
+  7. Vite tsconfig `moduleResolution: "node"` → `"esnext"`, added `extends: "../../tsconfig.base.json"`
 - All targets green: typecheck, build, test, lint for both projects

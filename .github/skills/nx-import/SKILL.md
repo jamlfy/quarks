@@ -148,7 +148,7 @@ The TS preset creates `packages/.gitkeep`. Remove it and commit before importing
 
 The TS preset defaults (`module: "nodenext"`, `moduleResolution: "nodenext"`, `lib: ["es2022"]`) are incompatible with frontend frameworks (React, Next.js, Vue, Vite). After importing frontend projects, verify the dest root `tsconfig.base.json`:
 
-- **`moduleResolution`**: Must be `"bundler"` (not `"nodenext"`)
+- **`moduleResolution`**: Must be `"esnext"` (not `"nodenext"`)
 - **`module`**: Must be `"esnext"` (not `"nodenext"`)
 - **`lib`**: Must include `"dom"` and `"dom.iterable"` (frontend projects need these)
 - **`jsx`**: `"react-jsx"` for React-only workspaces, per-project for mixed frameworks

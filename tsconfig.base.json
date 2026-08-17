@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "composite": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "importHelpers": true,
     "isolatedModules": true,
     "lib": ["es2022"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
@@ -20,17 +19,30 @@
     "noUncheckedSideEffectImports": false,
     "types": ["*"],
     "paths": {
-      "@quarks/api": ["./apps/api/src/index.ts"],
-      "@quarks/data": ["./packages/data/src/index.ts"],
-      "@quarks/auth": ["./packages/controller/auth/src/index.ts"],
-      "@quarks/user": ["./packages/controller/user/src/index.ts"],
-      "@quarks/store": ["./packages/controller/store/src/index.ts"],
-      "@quarks/purchase": ["./packages/controller/purchase/src/index.ts"],
-      "@quarks/products": ["./packages/controller/products/src/index.ts"],
-      "@quarks/webhook": ["./packages/controller/webhook/src/index.ts"],
-      "@quarks/use-cart": ["./packages/controller/useCart/src/index.ts"],
-      "@quarks/use-user": ["./packages/controller/useUser/src/index.ts"],
-      "@quarks/shared": ["./packages/shared/src/index.ts"]
+      "@quarks/user-data": ["./packages/user/data/src/index.ts"],
+      "@quarks/user-controller": ["./packages/user/controller/src/index.ts"],
+      "@quarks/user-use": ["./packages/user/use/src/index.ts"],
+      "@quarks/share-use": ["./packages/share/use/src/index.ts"],
+      "@quarks/store-controller": ["./packages/store/controllers/src/index.ts"],
+      "@quarks/store-data": ["./packages/store/data/src/index.ts"],
+      "@quarks/store-use": ["./packages/store/use/src/index.ts"],
+      "@quarks/product-data": ["./packages/product/data/src/index.ts"],
+      "@quarks/product-controller": [
+        "./packages/product/controller/src/index.ts"
+      ],
+      "@quarks/testing-data": ["./packages/testing/data/src/index.ts"],
+      "@quarks/testing-controller": [
+        "./packages/testing/controller/src/index.ts"
+      ],
+      "@quarks/transaction-data": ["./packages/transaction/data/src/index.ts"],
+      "@quarks/transaction-controller": [
+        "./packages/transaction/controller/src/index.ts"
+      ],
+      "@quarks/share-function": ["./packages/share/function/src/index.ts"],
+      "@quarks/share-const": ["./packages/share/const/src/index.ts"],
+      "@quarks/share-domain": ["./packages/share/domain/src/index.ts"],
+      "@quarks/getway": ["./packages/getway/src/index.ts"],
+      "@quarks/event": ["./packages/event/src/index.ts"]
     }
   }
 }

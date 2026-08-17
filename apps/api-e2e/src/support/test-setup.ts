@@ -1,6 +1,6 @@
-/* eslint-disable */
+ 
 import axios from 'axios';
-import { getEnv, ENV, DEFAULTS } from '@quarks/share/const';
+import { getEnv, ENV, DEFAULTS } from '@quarks/share-const';
 
 module.exports = async function () {
   // Configure axios for tests to use.
