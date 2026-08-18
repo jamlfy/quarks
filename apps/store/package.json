@@ -2,5 +2,8 @@
   "name": "store",
   "version": "0.0.1",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@astrojs/cloudflare": "13.7.0"
+  }
 }

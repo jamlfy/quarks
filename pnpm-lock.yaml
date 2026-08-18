@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@astrojs/cloudflare':
-        specifier: ^14.2.1
-        version: 14.2.1(@types/node@24.13.3)(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@7.2.0)(yaml@2.9.0))(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(wrangler@4.123.0)(yaml@2.9.0)
       '@astrojs/react':
         specifier: ^6.0.2
         version: 6.0.2(@types/node@24.13.3)(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(esbuild@0.27.7)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@7.2.0)(yaml@2.9.0)
@@ -42,6 +39,9 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
+      '@astrojs/cloudflare':
+        specifier: ^13.5.5
+        version: 13.5.5(@types/node@24.13.3)(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@7.2.0)(yaml@2.9.0))(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(wrangler@4.123.0)(yaml@2.9.0)
       '@astrojs/node':
         specifier: ^10.0.0
         version: 10.1.4(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@7.2.0)(yaml@2.9.0))(supports-color@7.2.0)
@@ -157,13 +157,17 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0
 
-  apps/store: {}
+  apps/store:
+    dependencies:
+      '@astrojs/cloudflare':
+        specifier: 13.7.0
+        version: 13.7.0(@types/node@24.13.3)(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@10.2.2)(yaml@2.9.0))(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(wrangler@4.123.0)(yaml@2.9.0)
 
   apps/web:
     dependencies:
       '@astrojs/cloudflare':
-        specifier: ^14.2.1
-        version: 14.2.1(@types/node@24.13.3)(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@10.2.2)(yaml@2.9.0))(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(wrangler@4.123.0)(yaml@2.9.0)
+        specifier: ^13.7.0
+        version: 13.7.0(@types/node@24.13.3)(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@10.2.2)(yaml@2.9.0))(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(wrangler@4.123.0)(yaml@2.9.0)
       '@astrojs/node':
         specifier: ^10.0.0
         version: 10.1.4(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@10.2.2)(yaml@2.9.0))(supports-color@10.2.2)
@@ -485,10 +489,16 @@ importers:
 
 packages:
 
-  '@astrojs/cloudflare@14.2.1':
-    resolution: {integrity: sha512-WUQwugRg23uU4OCHEMDazqt44ZlUcnA+kLSd2bvNqoHHctNAKt893gr2JuAzUSzFZ6BuEOoun/zJiTMm+AiSug==}
+  '@astrojs/cloudflare@13.5.5':
+    resolution: {integrity: sha512-b+d8UF1c4SPTUPYKDF9XzLuB4IHywXzpv9aPZByJEVmLf5dt9IxdQ3iBhC3nn3g15LppW7bv56G1Uvb/oo2eiQ==}
     peerDependencies:
-      astro: ^7.2.0
+      astro: ^6.3.0
+      wrangler: ^4.83.0
+
+  '@astrojs/cloudflare@13.7.0':
+    resolution: {integrity: sha512-nXTB70NlhG5JcQjo2a8psart4xG4POLwYZJV498A4JFM3jauMZ51IetkVR784Dy9rjn1qMH5vUO44ng6YqtwQg==}
+    peerDependencies:
+      astro: ^6.3.0
       wrangler: ^4.83.0
 
   '@astrojs/compiler@4.0.0':
@@ -499,6 +509,9 @@ packages:
 
   '@astrojs/internal-helpers@0.10.2':
     resolution: {integrity: sha512-yt7fMgPYqSM4Tmr+taTW6Per+hjJ8Pk6lA1PAcDyqzOt8HzJ6Kje5WzCxA2Sd+9wsUW7uhkLeoTMK0cXPwH9rQ==}
+
+  '@astrojs/internal-helpers@0.9.1':
+    resolution: {integrity: sha512-1pWuARqYom/TzuU3+0ZugsTrKlUydWKuULmDqSMTuonY+9IRDUEGKX/8PXQ1nBxRq3w85uGtd9q9SXfqEldMIQ==}
 
   '@astrojs/markdown-remark@7.2.0':
     resolution: {integrity: sha512-+YxmVQu1Bd+MFfSzjq1rOJvD9+nIOJzz5YIIhdIH01RrxRkKbyKoEgyIqP3yv51MhzMDgd79QaPv+kCVPT8vHw==}
@@ -525,8 +538,8 @@ packages:
     resolution: {integrity: sha512-j8DNruA8ors99Al39RYZPJK4DC1bKkoNm93mAMuBhY9TCNC4R8n1q7ovFnJ5qhGh5Lsh7pa1gpQVpYpsJPeTHQ==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0}
 
-  '@astrojs/underscore-redirects@1.0.4':
-    resolution: {integrity: sha512-sD3bn7i2yC+ocxlhCTshdg3gUM471Nag3wgyHilA+kpmufokvmUu1p5Mw5GT5Xp8SPC1Nlq0BJAgV/lslnWvRw==}
+  '@astrojs/underscore-redirects@1.0.3':
+    resolution: {integrity: sha512-cxnGSw+sJigBLdX4TMSZKkzV6C3gMLJMucDk2W+n281Xhie68T2/9f1+1NMNDCZsc5i0FED7Qt5I10g2O9wtZg==}
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -7088,22 +7101,22 @@ packages:
 
 snapshots:
 
-  '@astrojs/cloudflare@14.2.1(@types/node@24.13.3)(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@10.2.2)(yaml@2.9.0))(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(wrangler@4.123.0)(yaml@2.9.0)':
+  '@astrojs/cloudflare@13.5.5(@types/node@24.13.3)(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@7.2.0)(yaml@2.9.0))(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(wrangler@4.123.0)(yaml@2.9.0)':
     dependencies:
-      '@astrojs/internal-helpers': 0.10.2
-      '@astrojs/underscore-redirects': 1.0.4
-      '@cloudflare/vite-plugin': 1.52.1(vite@8.2.1(@types/node@24.13.3)(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0))(wrangler@4.123.0)
-      astro: 6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@10.2.2)(yaml@2.9.0)
+      '@astrojs/internal-helpers': 0.9.1
+      '@astrojs/underscore-redirects': 1.0.3
+      '@cloudflare/vite-plugin': 1.52.1(vite@7.3.6(@types/node@24.13.3)(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0))(wrangler@4.123.0)
+      astro: 6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@7.2.0)(yaml@2.9.0)
       piccolore: 0.1.3
-      vite: 8.2.1(@types/node@24.13.3)(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0)
+      tinyglobby: 0.2.17
+      vite: 7.3.6(@types/node@24.13.3)(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0)
       wrangler: 4.123.0
     transitivePeerDependencies:
       - '@types/node'
-      - '@vitejs/devtools'
       - bufferutil
-      - esbuild
       - jiti
       - less
+      - lightningcss
       - sass
       - sass-embedded
       - stylus
@@ -7113,22 +7126,22 @@ snapshots:
       - utf-8-validate
       - yaml
 
-  '@astrojs/cloudflare@14.2.1(@types/node@24.13.3)(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@7.2.0)(yaml@2.9.0))(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(wrangler@4.123.0)(yaml@2.9.0)':
+  '@astrojs/cloudflare@13.7.0(@types/node@24.13.3)(astro@6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@10.2.2)(yaml@2.9.0))(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(wrangler@4.123.0)(yaml@2.9.0)':
     dependencies:
-      '@astrojs/internal-helpers': 0.10.2
-      '@astrojs/underscore-redirects': 1.0.4
-      '@cloudflare/vite-plugin': 1.52.1(vite@8.2.1(@types/node@24.13.3)(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0))(wrangler@4.123.0)
-      astro: 6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@7.2.0)(yaml@2.9.0)
+      '@astrojs/internal-helpers': 0.10.0
+      '@astrojs/underscore-redirects': 1.0.3
+      '@cloudflare/vite-plugin': 1.52.1(vite@7.3.6(@types/node@24.13.3)(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0))(wrangler@4.123.0)
+      astro: 6.4.8(@types/node@24.13.3)(lightningcss@1.33.0)(rollup@4.62.4)(sass-embedded@1.102.0)(sass@1.102.0)(supports-color@10.2.2)(yaml@2.9.0)
       piccolore: 0.1.3
-      vite: 8.2.1(@types/node@24.13.3)(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0)
+      tinyglobby: 0.2.17
+      vite: 7.3.6(@types/node@24.13.3)(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0)
       wrangler: 4.123.0
     transitivePeerDependencies:
       - '@types/node'
-      - '@vitejs/devtools'
       - bufferutil
-      - esbuild
       - jiti
       - less
+      - lightningcss
       - sass
       - sass-embedded
       - stylus
@@ -7161,6 +7174,10 @@ snapshots:
       shiki: 4.4.3
       smol-toml: 1.6.1
       unified: 11.0.5
+
+  '@astrojs/internal-helpers@0.9.1':
+    dependencies:
+      picomatch: 4.0.5
 
   '@astrojs/markdown-remark@7.2.0(supports-color@10.2.2)':
     dependencies:
@@ -7288,7 +7305,7 @@ snapshots:
       is-wsl: 3.1.1
       which-pm-runs: 1.1.0
 
-  '@astrojs/underscore-redirects@1.0.4': {}
+  '@astrojs/underscore-redirects@1.0.3': {}
 
   '@babel/code-frame@7.29.7':
     dependencies:
@@ -8169,12 +8186,12 @@ snapshots:
     optionalDependencies:
       workerd: 1.20260811.1
 
-  '@cloudflare/vite-plugin@1.52.1(vite@8.2.1(@types/node@24.13.3)(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0))(wrangler@4.123.0)':
+  '@cloudflare/vite-plugin@1.52.1(vite@7.3.6(@types/node@24.13.3)(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0))(wrangler@4.123.0)':
     dependencies:
       '@cloudflare/unenv-preset': 2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260811.1)
       miniflare: 5.20260811.1-alpha
       unenv: 2.0.0-rc.24
-      vite: 8.2.1(@types/node@24.13.3)(esbuild@0.27.7)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0)
+      vite: 7.3.6(@types/node@24.13.3)(lightningcss@1.33.0)(sass-embedded@1.102.0)(sass@1.102.0)(yaml@2.9.0)
       workerd: 1.20260811.1
       wrangler: 4.123.0
       ws: 8.21.0
@@ -9584,7 +9601,7 @@ snapshots:
       detect-libc: 2.1.2
       is-glob: 4.0.3
       node-addon-api: 7.1.1
-      picomatch: 4.0.4
+      picomatch: 4.0.5
     optionalDependencies:
       '@parcel/watcher-android-arm64': 2.6.0
       '@parcel/watcher-darwin-arm64': 2.6.0
@@ -11501,10 +11518,6 @@ snapshots:
   fb-watchman@2.0.2:
     dependencies:
       bser: 2.1.1
-
-  fdir@6.5.0(picomatch@4.0.4):
-    optionalDependencies:
-      picomatch: 4.0.4
 
   fdir@6.5.0(picomatch@4.0.5):
     optionalDependencies:
@@ -14622,8 +14635,8 @@ snapshots:
 
   tinyglobby@0.2.17:
     dependencies:
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
+      fdir: 6.5.0(picomatch@4.0.5)
+      picomatch: 4.0.5
 
   tmp@0.2.4: {}
 
