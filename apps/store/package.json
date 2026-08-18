@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@astrojs/cloudflare": "13.7.0"
+    "@astrojs/cloudflare": "^13.5.5"
   }
 }

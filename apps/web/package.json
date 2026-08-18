@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@astrojs/cloudflare": "^13.7.0",
+    "@astrojs/cloudflare": "^13.5.5",
     "@astrojs/node": "^10.0.0",
     "@astrojs/react": "^6.0.2",
     "astro": "^6.4.8"

@@ -5,7 +5,7 @@
   "scripts": {},
   "private": true,
   "devDependencies": {
-    "@astrojs/cloudflare": "^13.7.0",
+    "@astrojs/cloudflare": "^13.5.5",
     "@astrojs/node": "^10.0.0",
     "@eslint/js": "^9.8.0",
     "@geekvetica/nx-astro": "^2.0.0",
