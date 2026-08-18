@@ -1,0 +1,27 @@
+---
+import PublicLayout from './PublicLayout.astro';
+
+interface Props {
+  title?: string;
+}
+const { title = 'Quarks' } = Astro.props;
+---
+<PublicLayout title={title}>
+  <header>
+    <nav>
+      <a href="/">Quarks</a>
+      <div>
+        <a href="/me">Mi perfil</a>
+        <a href="/purchases">Mis compras</a>
+        <a href="/create-testing">Crear testing</a>
+        <a href="/panel">Mis campañas</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <slot />
+  </main>
+  <footer>
+    <p>&copy; 2026 Quarks</p>
+  </footer>
+</PublicLayout>

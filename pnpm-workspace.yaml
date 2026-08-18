@@ -1,9 +1,13 @@
 packages:
   - 'packages/*'
   - 'packages/*/*'
+  - 'apps/*'
 
 allowBuilds:
+  '@parcel/watcher': set this to true or false
   '@swc/core': false
   esbuild: false
   nx: true
+  sharp: set this to true or false
   unrs-resolver: false
+  workerd: set this to true or false

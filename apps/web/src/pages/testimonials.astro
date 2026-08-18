@@ -1,0 +1,43 @@
+---
+export const prerender = true;
+import PublicLayout from '../layouts/PublicLayout.astro';
+import { getCollection } from 'astro:content';
+
+const testimonials = await getCollection('testimonials');
+---
+
+<PublicLayout title="Testimonios - Quarks">
+  <section>
+    <h1>Testimonios</h1>
+    <div class="testimonials-grid">
+      {testimonials.map((t) => (
+        <article class="testimonial-card">
+          <p>{t.body}</p>
+          <footer>
+            <strong>{t.data.name}</strong>
+            <span>{t.data.role}</span>
+          </footer>
+        </article>
+      ))}
+    </div>
+  </section>
+</PublicLayout>
+
+<style>
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+  .testimonial-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+  }
+  .testimonial-card footer {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+</style>

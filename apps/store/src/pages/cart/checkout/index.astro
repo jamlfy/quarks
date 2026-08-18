@@ -1,0 +1,32 @@
+---
+import StoreLayout from '../../../layouts/StoreLayout.astro';
+import CheckoutForm from '@quarks/store-ui';
+---
+
+<StoreLayout title="Checkout - Store">
+  <header>
+    <nav>
+      <a href="/cart">← Volver al carrito</a>
+      <h1>Checkout</h1>
+    </nav>
+  </header>
+  <main>
+    <CheckoutForm client:load />
+  </main>
+</StoreLayout>
+
+<style>
+  header {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 2rem;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  main {
+    padding: 2rem;
+    max-width: 600px;
+  }
+</style>

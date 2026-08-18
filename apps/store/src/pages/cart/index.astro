@@ -1,0 +1,31 @@
+---
+import StoreLayout from '../../layouts/StoreLayout.astro';
+import CartView from '@quarks/store-ui';
+---
+
+<StoreLayout title="Carrito - Store">
+  <header>
+    <nav>
+      <a href="/">← Volver</a>
+      <h1>Carrito</h1>
+    </nav>
+  </header>
+  <main>
+    <CartView client:load />
+  </main>
+</StoreLayout>
+
+<style>
+  header {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 2rem;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  main {
+    padding: 2rem;
+  }
+</style>

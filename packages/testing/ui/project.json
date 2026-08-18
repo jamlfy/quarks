@@ -1,0 +1,21 @@
+{
+  "name": "testing/ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/testing/ui/src",
+  "projectType": "library",
+  "tags": ["domain:testing", "type:ui"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/testing/ui",
+        "main": "packages/testing/ui/src/index.ts",
+        "tsConfig": "packages/testing/ui/tsconfig.lib.json",
+        "assets": ["packages/testing/ui/*.md"],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

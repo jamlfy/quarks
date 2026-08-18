@@ -1,0 +1,44 @@
+---
+import StoreLayout from '../../layouts/StoreLayout.astro';
+import StorePurchasesTable from '@quarks/store-ui';
+
+const domain = Astro.locals.tenant;
+const API_URL = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:3001';
+
+let store = null;
+
+try {
+  const storeRes = await fetch(`${API_URL}/v1/store/${domain}`);
+  if (storeRes.ok) store = await storeRes.json();
+} catch (e) {
+  // API not available yet
+}
+---
+
+<StoreLayout title={`Mis compras - ${store?.name ?? 'Store'}`} theme={store?.theme}>
+  <header>
+    <nav>
+      <a href="/">← Volver</a>
+      <h1>{store?.name ?? domain}</h1>
+    </nav>
+  </header>
+  <main>
+    <h1>Mis compras</h1>
+    <StorePurchasesTable client:load />
+  </main>
+</StoreLayout>
+
+<style>
+  header {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 2rem;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  main {
+    padding: 2rem;
+  }
+</style>

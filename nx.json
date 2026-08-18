@@ -41,6 +41,17 @@
         "targetName": "test"
       },
       "exclude": ["apps/api-e2e/**/*", "apps/event-e2e/**/*"]
+    },
+    {
+      "plugin": "@geekvetica/nx-astro",
+      "options": {
+        "devTargetName": "dev",
+        "buildTargetName": "build",
+        "previewTargetName": "preview",
+        "checkTargetName": "check",
+        "testTargetName": "test",
+        "syncTargetName": "sync"
+      }
     }
   ],
   "nxCloudId": "6a805eb2910c182e03af38d4",

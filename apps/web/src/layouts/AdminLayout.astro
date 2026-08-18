@@ -1,0 +1,52 @@
+---
+import UserLayout from './UserLayout.astro';
+
+interface Props {
+  title?: string;
+}
+const { title = 'Admin - Quarks' } = Astro.props;
+---
+<UserLayout title={title}>
+  <div class="admin-layout">
+    <aside>
+      <nav>
+        <a href="/admin/store">Stores</a>
+        <a href="/admin/user">Usuarios</a>
+        <a href="/admin/testing">Testings</a>
+        <a href="/admin/products">Productos</a>
+      </nav>
+    </aside>
+    <section>
+      <slot />
+    </section>
+  </div>
+</UserLayout>
+
+<style>
+  .admin-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+  }
+  aside {
+    border-right: 1px solid #e5e7eb;
+    padding: 1rem;
+  }
+  aside nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  aside a {
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    color: #374151;
+  }
+  aside a:hover {
+    background: #f3f4f6;
+  }
+  section {
+    padding: 1.5rem;
+  }
+</style>

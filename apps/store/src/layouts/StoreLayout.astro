@@ -1,0 +1,46 @@
+---
+interface Props {
+  title?: string;
+  theme?: {
+    background: string;
+    primary: string;
+    secondary: string;
+    text: string;
+    logo: string;
+  };
+}
+const { title = 'Store', theme } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style lang="scss" define:vars={theme ? {
+  'color-bg': theme.background,
+  'color-primary': theme.primary,
+  'color-secondary': theme.secondary,
+  'color-text': theme.text,
+} : {}}>
+  @use '../styles/global.scss';
+
+  :root {
+    --color-bg: var(--color-bg, #ffffff);
+    --color-primary: var(--color-primary, #3b82f6);
+    --color-secondary: var(--color-secondary, #10b981);
+    --color-text: var(--color-text, #111827);
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+</style>

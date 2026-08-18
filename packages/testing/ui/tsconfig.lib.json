@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/packages/testing/ui",
+    "tsBuildInfoFile": "../../../dist/out-tsc/packages/testing/ui/tsconfig.lib.tsbuildinfo",
+    "declaration": true,
+    "types": ["node"],
+    "rootDir": "src",
+    "composite": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"],
+  "references": [
+    { "path": "../../share/use/tsconfig.lib.json" }
+  ]
+}

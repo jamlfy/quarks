@@ -1,0 +1,21 @@
+{
+  "name": "user/ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/user/ui/src",
+  "projectType": "library",
+  "tags": ["domain:user", "type:ui"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/user/ui",
+        "main": "packages/user/ui/src/index.ts",
+        "tsConfig": "packages/user/ui/tsconfig.lib.json",
+        "assets": ["packages/user/ui/*.md"],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
+      }
+    }
+  }
+}

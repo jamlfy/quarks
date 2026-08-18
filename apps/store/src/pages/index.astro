@@ -1,0 +1,90 @@
+---
+import StoreLayout from '../layouts/StoreLayout.astro';
+
+const domain = Astro.locals.tenant;
+const API_URL = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:3001';
+
+let store = null;
+let products = [];
+
+try {
+  const storeRes = await fetch(`${API_URL}/v1/store/${domain}`);
+  if (storeRes.ok) store = await storeRes.json();
+
+  const productsRes = await fetch(`${API_URL}/v1/product/?page=1&limit=20`);
+  if (productsRes.ok) products = (await productsRes.json()).data || [];
+} catch (e) {
+  // API not available yet
+}
+---
+
+<StoreLayout title={store?.name ?? 'Store'} theme={store?.theme}>
+  <header>
+    <nav>
+      {store?.theme?.logo && <img src={store.theme.logo} alt={store.name} class="logo" />}
+      <h1>{store?.name ?? domain}</h1>
+    </nav>
+  </header>
+  <main>
+    <h2>Productos</h2>
+    <div class="products-grid">
+      {products.map((p: any) => (
+        <a href={`/general/${p.id}`} class="product-card">
+          {p.metadata?.image && <img src={p.metadata.image} alt={p.name || p.id} />}
+          <div class="product-info">
+            <h3>{p.name || p.id}</h3>
+            <p class="price">${p.price}</p>
+          </div>
+        </a>
+      ))}
+      {products.length === 0 && <p>No hay productos disponibles</p>}
+    </div>
+  </main>
+</StoreLayout>
+
+<style>
+  header {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 2rem;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .logo {
+    height: 40px;
+  }
+  main {
+    padding: 2rem;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  .product-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s;
+  }
+  .product-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .product-info {
+    padding: 1rem;
+  }
+  .price {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+</style>

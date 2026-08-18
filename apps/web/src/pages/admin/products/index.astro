@@ -1,0 +1,9 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import ProductTable from '@quarks/product-ui';
+---
+
+<AdminLayout title="Productos - Admin">
+  <h1>Productos</h1>
+  <ProductTable client:load />
+</AdminLayout>
