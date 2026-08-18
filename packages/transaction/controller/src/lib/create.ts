@@ -16,27 +16,30 @@ export const createSpend = async (c: Context) => {
   if (!store) return c.text('Store not found', 404);
 
   const totalPoints = parsed.price * (parsed.quantity ?? 1);
-  const points = await txService.getByUser(c.get('user').id, domain);
+  const points = await txService.getByUser(c.get('user').id, domain); // todo: deben ser todas las tiendas
   if (points < totalPoints) return c.text('Insufficient points', 400);
 
   const tx = await txService.spend(
     c.get('user').id,
     domain,
     totalPoints,
-    parsed as unknown as Record<string, unknown>
+    parsed as unknown as Record<string, unknown>,
   );
 
   await c.env.EVENT_QUEUE.send({
-      type: 'CHECKOUT_CART',
-      payload: {
-          checkout: parsed,
-      }
+    type: 'CHECKOUT_CART',
+    payload: {
+      checkout: parsed,
+    },
   });
 
-  return c.json({
-    success: true,
-    transactionId: tx.id ?? '',
-    pointsUsed: totalPoints,
-    remainingPoints: points - totalPoints,
-  }, 201);
+  return c.json(
+    {
+      success: true,
+      transactionId: tx.id ?? '',
+      pointsUsed: totalPoints,
+      remainingPoints: points - totalPoints,
+    },
+    201,
+  );
 };

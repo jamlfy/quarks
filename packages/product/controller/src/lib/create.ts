@@ -1,7 +1,7 @@
 import type { Context } from 'hono';
-import { ProductSchema } from "@quarks/product-data";
-import type { ProductService } from "@quarks/product-data";
-import { validate } from "@quarks/share-function";
+import { ProductSchema } from '@quarks/product-data';
+import type { ProductService } from '@quarks/product-data';
+import { validate } from '@quarks/share-function';
 
 export const create = async (c: Context) => {
   const body = await c.req.json().catch(() => ({}));

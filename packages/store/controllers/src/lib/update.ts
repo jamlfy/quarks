@@ -1,5 +1,5 @@
 import type { Context } from 'hono';
-import { StoreUpdateSchema } from "@quarks/store-data";
+import { StoreUpdateSchema } from '@quarks/store-data';
 import type { StoreService } from '@quarks/store-data';
 import { validate } from '@quarks/share-function';
 

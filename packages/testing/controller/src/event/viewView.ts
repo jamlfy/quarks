@@ -1,12 +1,12 @@
-import type { EventPayload } from "@quarks/event";
-import type { Env } from "@quarks/share-domain";
+import type { EventPayload } from '@quarks/event';
+import type { Env } from '@quarks/share-domain';
 import { getTestingService } from '../lib/service';
 
-export const type = "TESTING_VIEW_SINGLE";
+export const type = 'TESTING_VIEW_SINGLE';
 
 export const handle = async (
   event: EventPayload<{ testingId: string }>,
-  env: Env
+  env: Env,
 ): Promise<void> => {
   const { testingId } = event.payload;
   const key = `testing:${type}:${testingId}`;
@@ -26,10 +26,7 @@ export const handle = async (
   }
 
   if (currentAmount <= 0) {
-    await Promise.all([
-      testS.desactive([testingId]),
-      env.CACHE.delete(key)
-    ]);
+    await Promise.all([testS.desactive([testingId]), env.CACHE.delete(key)]);
     return;
   }
 

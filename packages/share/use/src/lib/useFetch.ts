@@ -10,7 +10,12 @@ export function useFetch(initialToken?: string) {
   }, [storedToken]);
 
   const customFetch = useCallback(
-    async <T>(endpoint: string, options: RequestInit = {}, n = 5, overrideToken?: string): Promise<T> => {
+    async <T>(
+      endpoint: string,
+      options: RequestInit = {},
+      n = 5,
+      overrideToken?: string,
+    ): Promise<T> => {
       const activeToken = overrideToken ?? tokenRef.current;
 
       const headers: HeadersInit = {
@@ -55,7 +60,7 @@ export function useFetch(initialToken?: string) {
 
       return response.json();
     },
-    [setStoredToken]
+    [setStoredToken],
   );
 
   return customFetch;

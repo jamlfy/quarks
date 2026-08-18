@@ -1,4 +1,5 @@
-const BASE64URL_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+const BASE64URL_CHARS =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 
 export function generateUUIdUser(length: number): string {
   const bytesNeeded = Math.ceil((length * 6) / 8);

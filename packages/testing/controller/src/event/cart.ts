@@ -1,12 +1,12 @@
-import type { EventPayload } from "@quarks/event";
-import type { Env } from "@quarks/share-domain";
+import type { EventPayload } from '@quarks/event';
+import type { Env } from '@quarks/share-domain';
 import { getTestingService } from '../lib/service';
 
-export const type = "ADD_CART";
+export const type = 'ADD_CART';
 
 export const handle = async (
   event: EventPayload<{ testingId: string }>,
-  env: Env
+  env: Env,
 ): Promise<void> => {
   const { testingId } = event.payload;
   if (!testingId) return;

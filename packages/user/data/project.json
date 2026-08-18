@@ -3,23 +3,16 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/user/data/src",
   "projectType": "library",
-  "tags": [
-    "domain:user",
-    "type:data"
-  ],
+  "tags": ["domain:user", "type:data"],
   "targets": {
     "build": {
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/user/data",
         "main": "packages/user/data/src/index.ts",
         "tsConfig": "packages/user/data/tsconfig.lib.json",
-        "assets": [
-          "packages/user/data/*.md"
-        ],
+        "assets": ["packages/user/data/*.md"],
         "skipTypeCheck": true,
         "stripLeadingPaths": true
       }

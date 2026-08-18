@@ -1,7 +1,7 @@
 import type { Context } from 'hono';
-import { validate } from "@quarks/share-function";
-import { ProductUpdateSchema } from "@quarks/product-data";
-import type { ProductService } from "@quarks/product-data";
+import { validate } from '@quarks/share-function';
+import { ProductUpdateSchema } from '@quarks/product-data';
+import type { ProductService } from '@quarks/product-data';
 
 export const update = async (c: Context) => {
   const id = c.req.param('id') ?? '';

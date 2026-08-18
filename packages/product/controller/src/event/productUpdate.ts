@@ -1,5 +1,5 @@
-import type { EventPayload } from "@quarks/event";
-import type { Env } from "@quarks/share-domain";
+import type { EventPayload } from '@quarks/event';
+import type { Env } from '@quarks/share-domain';
 
 interface ProductUpdatePayload {
   id: string;
@@ -7,11 +7,11 @@ interface ProductUpdatePayload {
   points: number;
 }
 
-export const type = "PRODUCT_UPDATE";
+export const type = 'PRODUCT_UPDATE';
 
 export const handle = async (
   event: EventPayload<ProductUpdatePayload>,
-  env: Env
+  env: Env,
 ): Promise<void> => {
   const { id, price, points } = event.payload;
   const key = `config:${id}`;

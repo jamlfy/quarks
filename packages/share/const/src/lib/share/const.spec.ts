@@ -8,9 +8,9 @@ describe('share/const', () => {
   });
 
   it('resolves values from the provided env object first', () => {
-    expect(getEnv({ HOST: 'https://api.example.com' }, 'HOST', 'fallback')).toBe(
-      'https://api.example.com'
-    );
+    expect(
+      getEnv({ HOST: 'https://api.example.com' }, 'HOST', 'fallback'),
+    ).toBe('https://api.example.com');
   });
 
   it('falls back to the fallback value when the key is missing', () => {

@@ -1,2 +1,2 @@
 export * from './lib/useFetch';
-export * from './lib/useStorage'
+export * from './lib/useStorage';

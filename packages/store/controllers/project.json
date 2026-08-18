@@ -3,23 +3,16 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/store/controllers/src",
   "projectType": "library",
-  "tags": [
-    "controllers:store",
-    "type:store"
-  ],
+  "tags": ["controllers:store", "type:store"],
   "targets": {
     "build": {
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/store/controllers",
         "main": "packages/store/controllers/src/index.ts",
         "tsConfig": "packages/store/controllers/tsconfig.lib.json",
-        "assets": [
-          "packages/store/controllers/*.md"
-        ],
+        "assets": ["packages/store/controllers/*.md"],
         "skipTypeCheck": true,
         "stripLeadingPaths": true
       }

@@ -24,7 +24,7 @@ export const create = async (c: Context) => {
         [connector]: [...current, `${id}:${campaing}`],
       };
     },
-    { [body.panel]: campaing }
+    { [body.panel]: campaing },
   );
 
   const [itemsToCheck] = await Promise.all([
@@ -32,7 +32,11 @@ export const create = async (c: Context) => {
     service.create(c.get('user').id, body.product ?? []),
   ]);
 
-  const transaction = await trans.gateway(itemsToCheck as unknown as IProduct[], c.get('user'), body.campaing);
+  const transaction = await trans.gateway(
+    itemsToCheck as unknown as IProduct[],
+    c.get('user'),
+    body.campaing,
+  );
   const checkout = await Getway(system, transaction, c.get('user'));
 
   return c.json({ checkP, checkout }, 201);

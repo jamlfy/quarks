@@ -1,13 +1,13 @@
-import type { EventPayload } from "@quarks/event";
-import type { Env } from "@quarks/share-domain";
+import type { EventPayload } from '@quarks/event';
+import type { Env } from '@quarks/share-domain';
 import type { ITesting } from '@quarks/testing-data';
 import { getTestingService } from '../lib/service';
 
-export const type = "CHECKOUT_CART";
+export const type = 'CHECKOUT_CART';
 
 export const handle = async (
   event: EventPayload<{ checkout: ITesting[] }>,
-  env: Env
+  env: Env,
 ): Promise<void> => {
   const { checkout = [] } = event.payload;
   const itemsWithCampaign = checkout.filter((item) => !!item.campaing);
@@ -43,7 +43,9 @@ export const handle = async (
   }
 
   if (toFetch.length > 0) {
-    toFetch.forEach(({ item: { max }, key }) => promises.push(env.CACHE.put(key, max.toString())));
+    toFetch.forEach(({ item: { max }, key }) =>
+      promises.push(env.CACHE.put(key, max.toString())),
+    );
   }
 
   if (toDesactive.length > 0) {

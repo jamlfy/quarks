@@ -1,19 +1,22 @@
-import { useCallback, useState, useMemo, useEffect } from "react";
-import { useStorage, useFetch } from "@quarks/share-use";
+import { useCallback, useState, useMemo, useEffect } from 'react';
+import { useStorage, useFetch } from '@quarks/share-use';
 import type { IUser } from '@quarks/user-data';
 import type { Paginated } from '@quarks/share-domain';
 
-const STORAGE = "user";
+const STORAGE = 'user';
 
 type PaginatedUser = Paginated<IUser> | null;
 
 export const useUser = () => {
-  const [users, setUsers] = useStorage<Record<string, PaginatedUser>>(STORAGE, {});
+  const [users, setUsers] = useStorage<Record<string, PaginatedUser>>(
+    STORAGE,
+    {},
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
 
   const customFetch = useFetch('token');
-  const getUser = useCallback((num: number) => setPage(e => e + num), []);
+  const getUser = useCallback((num: number) => setPage((e) => e + num), []);
   const pageUser = useMemo(() => users[String(page)] ?? null, [users, page]);
 
   useEffect(() => {
@@ -24,7 +27,7 @@ export const useUser = () => {
     customFetch<PaginatedUser>(`/api/users?page=${page}`)
       .then((data) => {
         if (cancelled) return;
-        setUsers((e:Record<string, PaginatedUser>) => ({
+        setUsers((e: Record<string, PaginatedUser>) => ({
           ...e,
           [String(page)]: data,
         }));
@@ -44,6 +47,6 @@ export const useUser = () => {
     users,
     isLoading,
     page: pageUser,
-    setPage
-  }
-}
+    setPage,
+  };
+};

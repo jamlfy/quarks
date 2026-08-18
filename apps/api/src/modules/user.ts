@@ -1,6 +1,13 @@
 import { Hono } from 'hono';
-import { getMe, updateMe, getAll, getOne, updateOne, injectUserService } from '@quarks/user-controller';
-import { requireAuth, requireAdmin } from "@quarks/share-middleware";
+import {
+  getMe,
+  updateMe,
+  getAll,
+  getOne,
+  updateOne,
+  injectUserService,
+} from '@quarks/user-controller';
+import { requireAuth, requireAdmin } from '@quarks/share-middleware';
 
 export const userRouter = new Hono();
 

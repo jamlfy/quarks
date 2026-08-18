@@ -3,23 +3,16 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/testing/controller/src",
   "projectType": "library",
-  "tags": [
-    "controllers:testing",
-    "type:testing"
-  ],
+  "tags": ["controllers:testing", "type:testing"],
   "targets": {
     "build": {
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/testing/controller",
         "main": "packages/testing/controller/src/index.ts",
         "tsConfig": "packages/testing/controller/tsconfig.lib.json",
-        "assets": [
-          "packages/testing/controller/*.md"
-        ],
+        "assets": ["packages/testing/controller/*.md"],
         "skipTypeCheck": true,
         "stripLeadingPaths": true
       }

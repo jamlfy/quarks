@@ -3,23 +3,16 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/share/use/src",
   "projectType": "library",
-  "tags": [
-    "domain:share",
-    "type:share"
-  ],
+  "tags": ["domain:share", "type:share"],
   "targets": {
     "build": {
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/share/use",
         "main": "packages/share/use/src/index.ts",
         "tsConfig": "packages/share/use/tsconfig.lib.json",
-        "assets": [
-          "packages/share/use/*.md"
-        ],
+        "assets": ["packages/share/use/*.md"],
         "skipTypeCheck": true,
         "stripLeadingPaths": true
       }

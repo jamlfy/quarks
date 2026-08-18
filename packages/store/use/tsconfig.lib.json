@@ -4,15 +4,11 @@
     "outDir": "../../../dist/packages/store/use",
     "tsBuildInfoFile": "../../../dist/out-tsc/packages/store/use/tsconfig.lib.tsbuildinfo",
     "declaration": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "rootDir": "src",
     "composite": true
   },
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": [
     "jest.config.ts",
     "jest.config.cts",

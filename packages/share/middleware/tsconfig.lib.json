@@ -4,15 +4,11 @@
     "outDir": "../../../dist/packages/share/middleware",
     "tsBuildInfoFile": "../../../dist/out-tsc/packages/share/middleware/tsconfig.lib.tsbuildinfo",
     "declaration": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "rootDir": "src",
     "composite": true
   },
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": [
     "jest.config.ts",
     "jest.config.cts",

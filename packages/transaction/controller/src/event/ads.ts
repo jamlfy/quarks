@@ -1,14 +1,14 @@
-import type { EventPayload } from "@quarks/event";
-import type { Env } from "@quarks/share-domain";
+import type { EventPayload } from '@quarks/event';
+import type { Env } from '@quarks/share-domain';
 import { getTransactionService } from '../lib/service';
 
-export const type = "VIEW_ADS";
+export const type = 'VIEW_ADS';
 
 export const handle = async (
-    event: EventPayload<{ userId: string }>,
-    env: Env
+  event: EventPayload<{ userId: string }>,
+  env: Env,
 ): Promise<void> => {
-    const { userId } = event.payload;
+  const { userId } = event.payload;
   if (!userId) return;
 
   const transaction = getTransactionService(env);
@@ -22,5 +22,7 @@ export const handle = async (
   const validTimes = Number.isNaN(times) ? 1 : times;
   const validAdsMultiplier = Number.isNaN(adsMultiplier) ? 1 : adsMultiplier;
 
-  await transaction.add(userId, validTimes * validAdsMultiplier, { event: type });
+  await transaction.add(userId, validTimes * validAdsMultiplier, {
+    event: type,
+  });
 };

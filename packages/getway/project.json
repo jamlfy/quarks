@@ -3,23 +3,16 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/getway/src",
   "projectType": "library",
-  "tags": [
-    "const:getway",
-    "type:getway"
-  ],
+  "tags": ["const:getway", "type:getway"],
   "targets": {
     "build": {
       "executor": "@nx/js:swc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/getway",
         "main": "packages/getway/src/index.ts",
         "tsConfig": "packages/getway/tsconfig.lib.json",
-        "assets": [
-          "packages/getway/*.md"
-        ],
+        "assets": ["packages/getway/*.md"],
         "skipTypeCheck": true,
         "stripLeadingPaths": true
       }

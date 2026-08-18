@@ -1,12 +1,12 @@
-import type { RenewSessionPayload } from "@quarks/user-data";
-import type { EventPayload } from "@quarks/event";
-import type { Env } from "@quarks/share-domain";
+import type { RenewSessionPayload } from '@quarks/user-data';
+import type { EventPayload } from '@quarks/event';
+import type { Env } from '@quarks/share-domain';
 
-export const type = "USER_RENEWED_SESSION";
+export const type = 'USER_RENEWED_SESSION';
 
 export const handle = async (
   event: EventPayload<RenewSessionPayload>,
-  env: Env
+  env: Env,
 ): Promise<void> => {
   const { userId, exp, timestamp } = event.payload;
   const key = `session:${userId}`;

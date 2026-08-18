@@ -1,6 +1,6 @@
 import type { Context } from 'hono';
-import type { ProductService, IProduct } from "@quarks/product-data";
-import type { TransactionService } from "@quarks/transaction-data";
+import type { ProductService, IProduct } from '@quarks/product-data';
+import type { TransactionService } from '@quarks/transaction-data';
 import { Getway } from '@quarks/getway';
 
 export const checkout = async (c: Context) => {
@@ -12,9 +12,13 @@ export const checkout = async (c: Context) => {
   const trans = c.get('transactionService') as TransactionService;
 
   const list = await service.check({ [id]: [c.get('user').id] });
-  if (!list || list.length === 0) return c.text('Product not found or unavailable', 404);
+  if (!list || list.length === 0)
+    return c.text('Product not found or unavailable', 404);
 
-  const transaction = await trans.gateway(list as unknown as IProduct[], c.get('user'));
+  const transaction = await trans.gateway(
+    list as unknown as IProduct[],
+    c.get('user'),
+  );
   const checkoutResult = await Getway(system, transaction, c.get('user'));
 
   return c.json({ checkout: checkoutResult }, 201);

@@ -22,12 +22,14 @@ export class EventBus {
     if (matchedHandlers.length === 0) return;
 
     const results = await Promise.allSettled(
-      matchedHandlers.map((handler) => handler.handle(event, env))
+      matchedHandlers.map((handler) => handler.handle(event, env)),
     );
 
     const errors = results.filter((r) => r.status === 'rejected');
     if (errors.length > 0) {
-      console.error(`Ocurrieron ${errors.length} errores procesando el evento ${event.type}`);
+      console.error(
+        `Ocurrieron ${errors.length} errores procesando el evento ${event.type}`,
+      );
       throw new Error(`Event processing incomplete for ${event.type}`);
     }
   }

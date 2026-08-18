@@ -3,28 +3,32 @@ import { type InferSelectModel } from 'drizzle-orm';
 import { z } from 'zod';
 import { users } from './schema';
 
-export const UserSchema: z.ZodObject<z.ZodRawShape> = createSelectSchema(users, {
-  name: (schema) => schema.min(1).max(100),
-  email: (schema) => schema.email(),
-});
+export const UserSchema: z.ZodObject<z.ZodRawShape> = createSelectSchema(
+  users,
+  {
+    name: (schema) => schema.min(1).max(100),
+    email: (schema) => schema.email(),
+  },
+);
 
 export const UserUpdateSchema: z.ZodObject<z.ZodRawShape> = UserSchema.pick({
   name: true,
   email: true,
 }).partial();
 
-export const AdminUserUpdateSchema: z.ZodObject<z.ZodRawShape> = UserSchema.pick({
-  name: true,
-  email: true,
-  isAdmin: true,
-}).partial();
+export const AdminUserUpdateSchema: z.ZodObject<z.ZodRawShape> =
+  UserSchema.pick({
+    name: true,
+    email: true,
+    isAdmin: true,
+  }).partial();
 
 export type IUser = InferSelectModel<typeof users>;
 
 export type JwtUser = Omit<
   IUser,
   'avatar' | 'socialId' | 'socialProvider' | 'createdAt' | 'updatedAt'
-    >;
+>;
 
 export interface JwtHelpers {
   signToken(user: JwtUser): Promise<string>;
@@ -32,16 +36,19 @@ export interface JwtHelpers {
 }
 
 export interface ExchangeCodeOptions {
-  code: string,
+  code: string;
   callbackUrl: string;
   clientSecret: string;
   clientId: string;
 }
 
-export type buildAuthUrlFunc = (callbackUrl: string, clientId: string) => string;
+export type buildAuthUrlFunc = (
+  callbackUrl: string,
+  clientId: string,
+) => string;
 export type exchangeCodeFunc = (
   options: ExchangeCodeOptions,
-  env?: AuthEnv
+  env?: AuthEnv,
 ) => Promise<Record<string, unknown>>;
 
 export interface OAuthProvider {
@@ -67,8 +74,8 @@ export interface AuthEnv {
 }
 
 export interface RenewSessionPayload {
-  userId: string,
-  iat: number,
-  exp: number,
-  timestamp: number
+  userId: string;
+  iat: number;
+  exp: number;
+  timestamp: number;
 }

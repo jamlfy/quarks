@@ -1,7 +1,12 @@
 import { desc, eq, and, or, count } from 'drizzle-orm';
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import type { PaginatedParams, Paginated } from '@quarks/share-domain';
-import type { IProduct, IProductService, IProductUpdate, IProductCreate } from './domain';
+import type {
+  IProduct,
+  IProductService,
+  IProductUpdate,
+  IProductCreate,
+} from './domain';
 import { products } from './schema';
 
 export class ProductService implements IProductService {
@@ -12,47 +17,67 @@ export class ProductService implements IProductService {
     return {
       ...row,
       quantity: row.quantity ?? undefined,
-      metadata: typeof row.metadata === 'string' ? JSON.parse(row.metadata) : row.metadata ?? null,
+      metadata:
+        typeof row.metadata === 'string'
+          ? JSON.parse(row.metadata)
+          : (row.metadata ?? null),
     };
   }
 
   async getById(id: string): Promise<IProduct | null> {
-    const row = await this.db.select().from(products).where(eq(products.id, id)).get();
+    const row = await this.db
+      .select()
+      .from(products)
+      .where(eq(products.id, id))
+      .get();
     return this.parse(row);
   }
 
   async getByCode(code: string): Promise<IProduct | null> {
-    const row = await this.db.select().from(products).where(eq(products.code, code)).get();
+    const row = await this.db
+      .select()
+      .from(products)
+      .where(eq(products.code, code))
+      .get();
     return this.parse(row);
   }
 
   async list(params: PaginatedParams): Promise<Paginated<IProduct>> {
     const offset = (params.page - 1) * params.limit;
 
-    const [[{ total }], rows] = await Promise.all([
-      this.db.select({ total: count() }).from(products).all(),
+    const [totalResult, rows] = await this.db.batch([
+      this.db.select({ total: count() }).from(products),
       this.db
         .select()
         .from(products)
         .orderBy(desc(products.createdAt))
         .limit(params.limit)
-        .offset(offset)
-        .all(),
+        .offset(offset),
     ]);
 
+    const total = totalResult[0]?.total ?? 0;
+
     return {
-      data: rows.map((r) => this.parse(r)).filter((p): p is IProduct => p !== null),
+      data: rows
+        .map((r) => this.parse(r))
+        .filter((p): p is IProduct => p !== null),
       total,
       page: params.page,
       limit: params.limit,
     };
   }
 
-  async listByCountry(countryCode: string, params: PaginatedParams): Promise<Paginated<IProduct>> {
+  async listByCountry(
+    countryCode: string,
+    params: PaginatedParams,
+  ): Promise<Paginated<IProduct>> {
     const offset = (params.page - 1) * params.limit;
     const query = and(
       eq(products.isActive, true),
-      or(eq(products.countryCode, countryCode), eq(products.countryCode, 'ALL'))
+      or(
+        eq(products.countryCode, countryCode),
+        eq(products.countryCode, 'ALL'),
+      ),
     );
 
     const [[{ total }], rows] = await Promise.all([
@@ -68,7 +93,9 @@ export class ProductService implements IProductService {
     ]);
 
     return {
-      data: rows.map((r) => this.parse(r)).filter((p): p is IProduct => p !== null),
+      data: rows
+        .map((r) => this.parse(r))
+        .filter((p): p is IProduct => p !== null),
       total,
       page: params.page,
       limit: params.limit,
@@ -103,8 +130,10 @@ export class ProductService implements IProductService {
     if (input.price !== undefined) payload['price'] = input.price;
     if (input.currency !== undefined) payload['currency'] = input.currency;
     if (input.points !== undefined) payload['points'] = input.points;
-    if (input.metadata !== undefined) payload['metadata'] = JSON.stringify(input.metadata);
-    if (input.countryCode !== undefined) payload['countryCode'] = input.countryCode;
+    if (input.metadata !== undefined)
+      payload['metadata'] = JSON.stringify(input.metadata);
+    if (input.countryCode !== undefined)
+      payload['countryCode'] = input.countryCode;
     if (input.isActive !== undefined) payload['isActive'] = input.isActive;
 
     if (Object.keys(payload).length === 0) {
@@ -122,27 +151,39 @@ export class ProductService implements IProductService {
   }
 
   async delete(id: string): Promise<boolean> {
-    const result = await this.db.delete(products).where(eq(products.id, id)).run();
+    const result = await this.db
+      .delete(products)
+      .where(eq(products.id, id))
+      .run();
     return result.rowsWritten > 0;
   }
 
-  async check(ids: Record<string, string[]>): Promise<Array<IProduct & { uuid: string }>> {
+  async check(
+    ids: Record<string, string[]>,
+  ): Promise<Array<IProduct & { uuid: string }>> {
     const entries = Object.entries(ids);
     if (entries.length === 0) return [];
 
     const query = entries.map(([productId]) => eq(products.id, productId));
-    const rows = await this.db.select().from(products).where(or(...query)).all();
+    const rows = await this.db
+      .select()
+      .from(products)
+      .where(or(...query))
+      .all();
 
-    return entries.reduce<Array<IProduct & { uuid: string }>>((acc, [productId, units]) => {
-      const row = rows.find(({ id }) => id === productId);
-      const parsedProduct = this.parse(row);
-      const newUnits = units.map((uuid) => ({
-        ...parsedProduct,
-        uuid,
-        quantity: parsedProduct?.quantity ?? 1,
-      })) as Array<IProduct & { uuid: string }>;
+    return entries.reduce<Array<IProduct & { uuid: string }>>(
+      (acc, [productId, units]) => {
+        const row = rows.find(({ id }) => id === productId);
+        const parsedProduct = this.parse(row);
+        const newUnits = units.map((uuid) => ({
+          ...parsedProduct,
+          uuid,
+          quantity: parsedProduct?.quantity ?? 1,
+        })) as Array<IProduct & { uuid: string }>;
 
-      return [...acc, ...newUnits];
-    }, []);
+        return [...acc, ...newUnits];
+      },
+      [],
+    );
   }
 }

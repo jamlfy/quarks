@@ -17,7 +17,7 @@ export type Env<T> = {
   ENVIRONMENT: 'development' | 'production';
   EVENTS_QUEUE: Queue<Record<string, unknown>>;
   DB: D1Database;
-    CACHE: KVNamespace;
+  CACHE: KVNamespace;
   Variables: {
     db: T;
     countryCode: string;

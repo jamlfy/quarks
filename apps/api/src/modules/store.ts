@@ -1,6 +1,12 @@
 import { Hono } from 'hono';
-import { getOne, getAll, create, update, injectStoreService } from '@quarks/store-controller';
-import { requireAdmin } from "@quarks/share-middleware";
+import {
+  getOne,
+  getAll,
+  create,
+  update,
+  injectStoreService,
+} from '@quarks/store-controller';
+import { requireAdmin } from '@quarks/share-middleware';
 
 export const storeRouter = new Hono();
 

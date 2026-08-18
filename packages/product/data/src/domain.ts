@@ -19,7 +19,9 @@ export const ProductCreateSchema = ProductSchema.omit({
   quantity: true,
 });
 
-export const ProductUpdateSchema = ProductCreateSchema.omit({ id: true }).partial();
+export const ProductUpdateSchema = ProductCreateSchema.omit({
+  id: true,
+}).partial();
 
 export type IProduct = z.infer<typeof ProductSchema>;
 export type IProductCreate = z.infer<typeof ProductCreateSchema>;
@@ -29,9 +31,14 @@ export interface IProductService {
   getById(id: string): Promise<IProduct | null>;
   getByCode(code: string): Promise<IProduct | null>;
   list(params: PaginatedParams): Promise<Paginated<IProduct>>;
-  listByCountry(countryCode: string, params: PaginatedParams): Promise<Paginated<IProduct>>;
+  listByCountry(
+    countryCode: string,
+    params: PaginatedParams,
+  ): Promise<Paginated<IProduct>>;
   create(data: IProductCreate): Promise<IProduct>;
   update(id: string, data: IProductUpdate): Promise<IProduct | null>;
   delete(id: string): Promise<boolean>;
-  check(ids: Record<string, string[]>): Promise<Array<IProduct & { uuid: string }>>;
+  check(
+    ids: Record<string, string[]>,
+  ): Promise<Array<IProduct & { uuid: string }>>;
 }

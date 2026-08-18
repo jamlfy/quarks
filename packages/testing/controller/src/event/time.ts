@@ -1,13 +1,13 @@
-import type { EventPayload } from "@quarks/event";
-import type { Env } from "@quarks/share-domain";
+import type { EventPayload } from '@quarks/event';
+import type { Env } from '@quarks/share-domain';
 import { getTestingService } from '../lib/service';
 
-export const type = "0 0 * * *";
-export const name = "TEST_TIME";
+export const type = '0 0 * * *';
+export const name = 'TEST_TIME';
 
 export const handle = async (
   event: EventPayload<void>,
-  env: Env
+  env: Env,
 ): Promise<void> => {
   const testS = getTestingService(env);
   const testings = await testS.whoIsActive();

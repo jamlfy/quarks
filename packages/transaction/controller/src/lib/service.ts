@@ -4,7 +4,9 @@ import type { Env } from '@quarks/share-domain';
 
 let cachedService: TransactionService | null = null;
 
-export const getTransactionService = (env: Env<unknown>): TransactionService => {
+export const getTransactionService = (
+  env: Env<unknown>,
+): TransactionService => {
   if (!cachedService) cachedService = new TransactionService(drizzle(env.DB));
   return cachedService;
 };

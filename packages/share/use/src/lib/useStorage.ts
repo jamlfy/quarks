@@ -5,12 +5,14 @@ type StorageType = 'local' | 'session';
 export function useStorage<T>(
   key: string,
   initialValue: T,
-  storageType: StorageType = 'local'
+  storageType: StorageType = 'local',
 ): [T, (value: T | ((val: T) => T)) => void, () => void] {
   // 1. Obtener la instancia del storage según el tipo
   const getStorage = useCallback(() => {
     if (typeof window === 'undefined') return null;
-    return storageType === 'local' ? window.localStorage : window.sessionStorage;
+    return storageType === 'local'
+      ? window.localStorage
+      : window.sessionStorage;
   }, [storageType]);
 
   // 2. Leer el valor inicial desde el Storage o usar el valor por defecto
@@ -22,7 +24,10 @@ export function useStorage<T>(
       const item = storage.getItem(key);
       return item ? (JSON.parse(item) as T) : initialValue;
     } catch (error) {
-      console.error(`Error reading key "${key}" from ${storageType}Storage:`, error);
+      console.error(
+        `Error reading key "${key}" from ${storageType}Storage:`,
+        error,
+      );
       return initialValue;
     }
   });
@@ -34,7 +39,8 @@ export function useStorage<T>(
         const storage = getStorage();
         setStoredValue((prevValue) => {
           // Soporta actualización por valor o por función callback: setValue(prev => ...)
-          const valueToStore = value instanceof Function ? value(prevValue) : value;
+          const valueToStore =
+            value instanceof Function ? value(prevValue) : value;
 
           if (storage) {
             storage.setItem(key, JSON.stringify(valueToStore));
@@ -42,10 +48,13 @@ export function useStorage<T>(
           return valueToStore;
         });
       } catch (error) {
-        console.error(`Error saving key "${key}" to ${storageType}Storage:`, error);
+        console.error(
+          `Error saving key "${key}" to ${storageType}Storage:`,
+          error,
+        );
       }
     },
-    [key, getStorage, storageType]
+    [key, getStorage, storageType],
   );
 
   // 4. Función para remover el elemento del Storage
@@ -57,7 +66,10 @@ export function useStorage<T>(
       }
       setStoredValue(initialValue);
     } catch (error) {
-      console.error(`Error deleting key "${key}" from ${storageType}Storage:`, error);
+      console.error(
+        `Error deleting key "${key}" from ${storageType}Storage:`,
+        error,
+      );
     }
   }, [key, getStorage, initialValue, storageType]);
 
@@ -68,7 +80,9 @@ export function useStorage<T>(
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === key) {
         try {
-          setStoredValue(event.newValue ? JSON.parse(event.newValue) : initialValue);
+          setStoredValue(
+            event.newValue ? JSON.parse(event.newValue) : initialValue,
+          );
         } catch {
           setStoredValue(initialValue);
         }

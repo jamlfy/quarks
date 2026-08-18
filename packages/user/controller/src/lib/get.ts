@@ -18,7 +18,10 @@ export const getOne = async (c: Context) => {
 export const getAll = async (c: Context) => {
   const userService = c.get('userService') as UserService;
   const page = Math.max(1, parseInt(c.req.query('page') || '1'));
-  const limit = Math.min(Math.max(1, parseInt(c.req.query('limit') || '20')), 100);
+  const limit = Math.min(
+    Math.max(1, parseInt(c.req.query('limit') || '20')),
+    100,
+  );
   const result = await userService.list({ page, limit });
   return c.json(result);
 };

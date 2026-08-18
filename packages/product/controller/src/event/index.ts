@@ -1,1 +1,1 @@
-export * as PRODUCT_UPDATE from "./productUpdate";
+export * as PRODUCT_UPDATE from './productUpdate';

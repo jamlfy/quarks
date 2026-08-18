@@ -23,7 +23,10 @@ export class TestingService {
     return {
       ...row,
       images: Array.isArray(parsedImages) ? parsedImages : [],
-      metadata: typeof row.metadata === 'string' ? JSON.parse(row.metadata) : row.metadata ?? null,
+      metadata:
+        typeof row.metadata === 'string'
+          ? JSON.parse(row.metadata)
+          : (row.metadata ?? null),
     };
   }
 
@@ -31,20 +34,23 @@ export class TestingService {
     const offset = (params.page - 1) * params.limit;
     const condition = eq(testing.isActive, true);
 
-    const [[{ total }], rows] = await Promise.all([
-      this.db.select({ total: count() }).from(testing).where(condition).all(),
+    const [totalResult, rows] = await this.db.batch([
+      this.db.select({ total: count() }).from(testing).where(condition),
       this.db
         .select()
         .from(testing)
         .where(condition)
         .orderBy(desc(testing.createdAt))
         .limit(params.limit)
-        .offset(offset)
-        .all(),
+        .offset(offset),
     ]);
 
+    const total = totalResult[0]?.total ?? 0;
+
     return {
-      data: rows.map((r) => this.parse(r)).filter((i): i is ITesting => i !== null),
+      data: rows
+        .map((r) => this.parse(r))
+        .filter((i): i is ITesting => i !== null),
       total,
       page: params.page,
       limit: params.limit,
@@ -52,18 +58,26 @@ export class TestingService {
   }
 
   async getById(id: string): Promise<ITesting | null> {
-    const row = await this.db.select().from(testing).where(eq(testing.id, id)).get();
+    const row = await this.db
+      .select()
+      .from(testing)
+      .where(eq(testing.id, id))
+      .get();
     return this.parse(row);
   }
 
   async getByIds(ids: string[]): Promise<ITesting[]> {
     if (ids.length === 0) return [];
 
-    const rows = this.db.select().from(testing)
+    const rows = this.db
+      .select()
+      .from(testing)
       .where(inArray(testing.id, ids))
       .all();
 
-    return rows.map((r) => this.parse(r)).filter((i): i is ITesting => i !== null);
+    return rows
+      .map((r) => this.parse(r))
+      .filter((i): i is ITesting => i !== null);
   }
 
   async getByCampaing(campaing: string): Promise<ITesting | null> {
@@ -76,24 +90,29 @@ export class TestingService {
     return this.parse(row);
   }
 
-  async listByUser(userId: string, params: PaginatedParams): Promise<Paginated<ITesting>> {
+  async listByUser(
+    userId: string,
+    params: PaginatedParams,
+  ): Promise<Paginated<ITesting>> {
     const offset = (params.page - 1) * params.limit;
     const query = eq(testing.userId, userId);
 
-    const [[{ total }], rows] = await Promise.all([
-      this.db.select({ total: count() }).from(testing).where(query).all(),
+    const [totalResult, rows] = await this.db.batch([
+      this.db.select({ total: count() }).from(testing).where(query),
       this.db
         .select()
         .from(testing)
         .where(query)
         .orderBy(desc(testing.createdAt))
         .limit(params.limit)
-        .offset(offset)
-        .all(),
+        .offset(offset),
     ]);
+    const total = totalResult[0]?.total ?? 0;
 
     return {
-      data: rows.map((r) => this.parse(r)).filter((i): i is ITesting => i !== null),
+      data: rows
+        .map((r) => this.parse(r))
+        .filter((i): i is ITesting => i !== null),
       total,
       page: params.page,
       limit: params.limit,
@@ -113,7 +132,10 @@ export class TestingService {
       .filter((c): c is ITesting => c !== null && Boolean(c.isActive));
   }
 
-  async create(userId: string, inputs: (ITestingInput & { id: string })[]): Promise<void> {
+  async create(
+    userId: string,
+    inputs: (ITestingInput & { id: string })[],
+  ): Promise<void> {
     await this.db.transaction(async (tx) => {
       await tx.insert(testing).values(
         inputs.map((e) => ({
@@ -128,17 +150,20 @@ export class TestingService {
           metadata: e.metadata ? JSON.stringify(e.metadata) : null,
           countryCode: e.countryCode,
           isActive: false,
-        }))
+          max: e.max, // Add this if 'max' is part of ITestingInput
+        })),
       );
 
-      const storeRelations = inputs.reduce<Array<{ testingId: string; storeId: string }>>(
-        (acc, item) => {
-          const stores = item.storeDomains ?? [];
-          const relations = stores.map((storeId) => ({ testingId: item.id, storeId }));
-          return [...acc, ...relations];
-        },
-        []
-      );
+      const storeRelations = inputs.reduce<
+        Array<{ testingId: string; storeId: string }>
+      >((acc, item) => {
+        const stores = item.storeDomains ?? [];
+        const relations = stores.map((storeId) => ({
+          testingId: item.id,
+          storeId,
+        }));
+        return [...acc, ...relations];
+      }, []);
 
       if (storeRelations.length > 0) {
         await tx.insert(testingStores).values(storeRelations);
@@ -146,18 +171,24 @@ export class TestingService {
     });
   }
 
-  async update(id: string, input: ITestingUpdate & { isActive?: boolean }): Promise<void> {
+  async update(
+    id: string,
+    input: ITestingUpdate & { isActive?: boolean },
+  ): Promise<void> {
     const data: Record<string, unknown> = {};
 
     if (input['campaing'] !== undefined) data['campaing'] = input['campaing'];
     if (input['images'] !== undefined) data['images'] = input['images'];
     if (input['name'] !== undefined) data['name'] = input['name'];
-    if (input['description'] !== undefined) data['description'] = input['description'];
+    if (input['description'] !== undefined)
+      data['description'] = input['description'];
     if (input['sku'] !== undefined) data['sku'] = input['sku'];
     if (input['price'] !== undefined) data['price'] = input['price'];
     if (input['type'] !== undefined) data['type'] = input['type'];
-    if (input['metadata'] !== undefined) data['metadata'] = JSON.stringify(input['metadata']);
-    if (input['countryCode'] !== undefined) data['countryCode'] = input['countryCode'];
+    if (input['metadata'] !== undefined)
+      data['metadata'] = JSON.stringify(input['metadata']);
+    if (input['countryCode'] !== undefined)
+      data['countryCode'] = input['countryCode'];
     if (input['isActive'] !== undefined) data['isActive'] = input['isActive'];
 
     if (Object.keys(data).length === 0) return;
@@ -169,12 +200,20 @@ export class TestingService {
     const uniqueDomains = [...new Set(domains)];
     if (uniqueDomains.length === 0) return;
 
-    const values = uniqueDomains.map((domain) => ({ testingId, storeId: domain }));
+    const values = uniqueDomains.map((domain) => ({
+      testingId,
+      storeId: domain,
+    }));
     await this.db.insert(testingStores).values(values);
   }
 
   async active(campaing: string): Promise<ITesting[]> {
-    return this.db.update(testing).set({ isActive: true }).where(eq(testing.campaing, campaing)).returning().all();
+    return this.db
+      .update(testing)
+      .set({ isActive: true })
+      .where(eq(testing.campaing, campaing))
+      .returning()
+      .all();
   }
 
   async desactive(ids: string[]): Promise<ITesting[]> {
@@ -189,6 +228,10 @@ export class TestingService {
   }
 
   async whoIsActive(): Promise<ITesting[]> {
-    return this.db.select().from(testing).where(and(eq(testing.isActive, true), eq(testing.type, "TIME"))).all();
+    return this.db
+      .select()
+      .from(testing)
+      .where(and(eq(testing.isActive, true), eq(testing.type, 'TIME')))
+      .all();
   }
 }

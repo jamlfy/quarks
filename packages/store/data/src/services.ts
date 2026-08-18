@@ -1,7 +1,12 @@
 import { eq } from 'drizzle-orm';
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import { stores } from './schema';
-import type { IStore, IStoreCreate, IStoreUpdate, IStoreService } from './domain';
+import type {
+  IStore,
+  IStoreCreate,
+  IStoreUpdate,
+  IStoreService,
+} from './domain';
 
 export class StoreService implements IStoreService {
   constructor(private db: DrizzleD1Database<any>) {}
@@ -10,8 +15,14 @@ export class StoreService implements IStoreService {
     if (!row) return null;
     return {
       ...row,
-      mapper: typeof row.mapper === 'string' ? JSON.parse(row.mapper) : row.mapper ?? {},
-      theme: typeof row.theme === 'string' ? JSON.parse(row.theme) : row.theme ?? {},
+      mapper:
+        typeof row.mapper === 'string'
+          ? JSON.parse(row.mapper)
+          : (row.mapper ?? {}),
+      theme:
+        typeof row.theme === 'string'
+          ? JSON.parse(row.theme)
+          : (row.theme ?? {}),
     };
   }
 
@@ -22,7 +33,9 @@ export class StoreService implements IStoreService {
       .where(eq(stores.isActive, true))
       .all();
 
-    return rows.map((r) => this.parse(r)).filter((s): s is IStore => s !== null);
+    return rows
+      .map((r) => this.parse(r))
+      .filter((s): s is IStore => s !== null);
   }
 
   async getById(id: string): Promise<IStore | null> {
@@ -54,11 +67,13 @@ export class StoreService implements IStoreService {
     const payload: Record<string, unknown> = {};
 
     if (data.name !== undefined) payload['name'] = data.name;
-    if (data.description !== undefined) payload['description'] = data.description;
+    if (data.description !== undefined)
+      payload['description'] = data.description;
     if (data.api !== undefined) payload['api'] = data.api;
     if (data.points !== undefined) payload['points'] = data.points;
     if (data.isActive !== undefined) payload['isActive'] = data.isActive;
-    if (data.mapper !== undefined) payload['mapper'] = JSON.stringify(data.mapper);
+    if (data.mapper !== undefined)
+      payload['mapper'] = JSON.stringify(data.mapper);
     if (data.theme !== undefined) payload['theme'] = JSON.stringify(data.theme);
 
     if (Object.keys(payload).length === 0) {

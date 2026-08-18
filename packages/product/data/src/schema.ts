@@ -3,8 +3,8 @@ import { generateHexId } from '@quarks/share-function';
 
 export const products = sqliteTable('product', {
   id: text('id')
-        .primaryKey()
-        .$defaultFn(() => generateHexId()),
+    .primaryKey()
+    .$defaultFn(() => generateHexId()),
   name: text('name').notNull(),
   code: text('code').notNull().unique(),
   price: integer('price').notNull(),
@@ -14,6 +14,11 @@ export const products = sqliteTable('product', {
   gateway: text('gateway'),
   countryCode: text('country_code').notNull(),
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(false),
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
-  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()).$onUpdateFn(() => new Date()),
+  createdAt: integer('created_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date())
+    .$onUpdateFn(() => new Date()),
 });
