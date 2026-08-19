@@ -1,0 +1,9 @@
+---
+import UserLayout from '../../layouts/UserLayout.astro';
+import ProfileCard from '@quarks/user-ui';
+---
+
+<UserLayout title="Mi perfil - Quarks">
+  <h1>Mi perfil</h1>
+  <ProfileCard client:load />
+</UserLayout>

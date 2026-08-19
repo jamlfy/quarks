@@ -3,14 +3,9 @@ packages:
   - 'packages/*/*'
   - 'apps/*'
 
-overrides:
-  vite: "^7.3.2"
-
 allowBuilds:
-  '@parcel/watcher': true
   '@swc/core': false
   esbuild: false
   nx: true
   sharp: set this to true or false
   unrs-resolver: false
-  workerd: true

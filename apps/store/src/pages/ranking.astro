@@ -1,0 +1,41 @@
+---
+import GameLayout from '../layouts/GameLayout.astro'
+import { API_URL } from '../lib'
+import { getStore } from '../lib/getStore'
+
+const domain = Astro.url.hostname
+const { store } = await getStore(domain)
+if (store) return new Response(null, { status: 404 })
+const resp = await fetch(`${API_URL}/v1/purchase`)
+const users = await resp.json()
+---
+
+<GameLayout>
+  <div class="space-y-6">
+    <h1 class="text-3xl font-bold text-gray-900">Ranking</h1>
+    {users.length === 0 ? (
+      <p class="text-gray-500">No data yet</p>
+    ) : (
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="min-w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">#</th>
+              <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">User</th>
+              <th class="px-6 py-3 text-right text-sm font-medium text-gray-500">Points</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            {users.map((u: any, i: number) => (
+              <tr>
+                <td class="px-6 py-4 text-sm text-gray-500">{i + 1}</td>
+                <td class="px-6 py-4 text-sm font-medium text-gray-900">{u.name || u.email}</td>
+                <td class="px-6 py-4 text-sm text-right font-bold text-indigo-600">{u.points}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+</GameLayout>

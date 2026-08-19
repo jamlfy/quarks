@@ -1,0 +1,71 @@
+---
+import GameLayout from '../../layouts/GameLayout.astro'
+import { API_URL } from '../../lib'
+
+const token = Astro.cookies.get('token')?.value
+let isAdmin = false
+if (token) {
+  const resp = await fetch(`${API_URL}/v1/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (resp.ok) isAdmin = (await resp.json()).isAdmin === true
+}
+if (!isAdmin) return new Response(null, { status: 404 })
+---
+
+<GameLayout>
+  <div class="max-w-2xl mx-auto space-y-6">
+    <h1 class="text-3xl font-bold text-gray-900">New Store</h1>
+    <form id="store-form" class="bg-white rounded-lg shadow p-6 space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Domain ID</label>
+        <input type="text" name="id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Description</label>
+        <textarea name="description" rows={3} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">API URL</label>
+        <input type="url" name="api" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+      </div>
+      <p id="status" class="text-sm"></p>
+      <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Create Store</button>
+    </form>
+  </div>
+</GameLayout>
+
+<script>
+  const token = document.cookie.split('; ').find(r => r.startsWith('token='))?.slice(6)
+  document.getElementById('store-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    const data = Object.fromEntries(new FormData(form))
+    const status = document.getElementById('status')
+    try {
+      const resp = await fetch('/api/v1/store', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(data),
+      })
+      if (!resp.ok) {
+        const err = await resp.json()
+        status.className = 'text-sm text-red-600'
+        status.textContent = err.error || 'Failed to create store'
+        return
+      }
+      const store = await resp.json()
+      window.location.href = `/store/${store.id}`
+    } catch (err) {
+      status.className = 'text-sm text-red-600'
+      status.textContent = 'Network error'
+    }
+  })
+</script>

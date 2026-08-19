@@ -1,0 +1,52 @@
+---
+import StoreLayout from '../layouts/StoreLayout.astro'
+import GameLayout from '../layouts/GameLayout.astro'
+import { API_URL } from '../lib'
+import { getStore } from '../lib/getStore'
+import getTheme from '@shopingamming/themes-select'
+
+const domain = Astro.url.hostname
+const { store } = await getStore(domain)
+const isStoreDomain = !!store
+const token = Astro.cookies.get('token')?.value
+let purchases: any[] = []
+if (token) {
+  const url = isStoreDomain
+    ? `${API_URL}/v1/purchase/${domain}`
+    : `${API_URL}/v1/purchase`
+  const resp = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (resp.ok) purchases = await resp.json()
+}
+---
+
+{isStoreDomain ? (
+  <StoreLayout store={store}>
+    {() => {
+      const { components: { Purchases } } = getTheme(store.theme?.themeName)
+      return <Purchases client:load domain={domain} token={token || ''} />
+    }}
+  </StoreLayout>
+) : (
+  <GameLayout>
+    <div class="space-y-6">
+      <h1 class="text-3xl font-bold text-gray-900">My Purchases</h1>
+      {purchases.length === 0 ? (
+        <p class="text-gray-500">No purchases yet</p>
+      ) : (
+        <div class="space-y-4">
+          {purchases.map((p: any) => (
+            <div class="bg-white rounded-lg shadow p-4 flex justify-between items-center">
+              <div>
+                <p class="font-semibold">{p.description || 'Purchase'}</p>
+                <p class="text-sm text-gray-500">{new Date(p.createdAt).toLocaleDateString()}</p>
+              </div>
+              <span class="text-red-600 font-bold">{p.amount} pts</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </GameLayout>
+)}
